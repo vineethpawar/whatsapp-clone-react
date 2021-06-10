@@ -1,38 +1,65 @@
-.App {
-  text-align: center;
+:root{
+  
+  --darkFontSHColor:rgb(153, 151, 151);  
+  --darkGreenBackground:#343836;
+  --darkFontColor:#fff;
+  --darkBackground:rgb(27, 39, 39);
+
+  --lightFontSHColor:rgb(153, 151, 151);  
+  --lightFontColor:rgb(43, 42, 42);
+  --lightGreenBackground:#00bfa5;
+  --lightBackground:rgb(238, 231, 231);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.theme__font{
+    color:var(--darkFontColor);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.theme__h2{
+    font-size: 19px;
+    font-weight: 500;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.theme__h4{
+    font-size: 17px;
+    font-weight: 500;
+}
+.theme__h5{
+    font-size: 14px;
+    font-weight: 500;
 }
 
-.App-link {
-  color: #61dafb;
+.theme__h3{
+    font-size: 14px;
+    font-weight: 400;
+    color:var(--lightGreenBackground);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.theme__search{
+    background-color:rgba(97, 89, 89, 0.541);
+}
+
+.theme__subfont{
+    color:var(--darkFontSHColor);
+}
+
+.theme__bg{
+    background-color: var(--darkBackground);
+}
+.theme__green__bg{
+    background-color: var(--darkGreenBackground);
+}
+
+.hover{
+    background-color: rgba(160, 154, 154, 0.801);
+}
+
+.app{
+    display: flex;
+}
+.app__left{
+    flex:0.3;
+}
+.app__right{
+    flex:0.7;
 }
