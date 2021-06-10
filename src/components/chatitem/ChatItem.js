@@ -1,6 +1,9 @@
 import React,{useState} from 'react'
 import './ChatItem.css'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ColorizeIcon from '@material-ui/icons/Colorize';
+import ArchiveIcon from '@material-ui/icons/Archive';
+
 
 function ChatItem() {
 
@@ -12,11 +15,23 @@ function ChatItem() {
         className="chat__dp" alt="" />
         <div className="chat__details">
             <h2 className="theme__h4"> Mayank Jain</h2>
-            <h4 className="theme__h5 theme__subfont"> Apun bidu hai...</h4>
+            <h4 className="theme__h5 theme__subfont chat__subtext"> Apun  adawd bettretetert ert lorem awd wder ert.</h4>
         </div>
-        <div className="chat__item__options">
+        <div className="chat__item__options " >
 
-           <span onClick={()=>{options ? setOptions(false) : setOptions(true)}}>
+        {true &&   
+            <span title="Archieved chat">
+              <ArchiveIcon  className="pin__icon"/> 
+            </span>
+        }
+
+        {false &&   
+            <span title="Pinned chat">
+              <ColorizeIcon  className="pin__icon"/> 
+            </span>
+        }
+
+           <span  onClick={()=>{options ? setOptions(false) : setOptions(true)}}>
              <ExpandMoreIcon className="expand__icon"/>
            </span>
 
@@ -24,7 +39,7 @@ function ChatItem() {
                <div className="options theme__green__bg" onClick={()=>{options ? setOptions(false) : setOptions(true)}}>
                    <div className="option__item">Pin chat</div>
                    <div className="option__item">Exit group</div>
-                   <div className="option__item">Clear chat</div>
+                   <div className="option__item">Archive chat</div>
                </div>
            }  
 
