@@ -15,17 +15,20 @@ function ChatItem() {
         className="chat__dp" alt="" />
         <div className="chat__details">
             <h2 className="theme__h4"> Mayank Jain</h2>
-            <h4 className="theme__h5 theme__subfont chat__subtext"> Apun  adawd bettretetert ert lorem awd wder ert.</h4>
+            <h4 className="theme__h5 theme__subfont chat__subtext">Hey there I am using whatsapp</h4>
         </div>
-        <div className="chat__item__options " >
+        
+        <div className="chat__item__options" >
+        <div className="time">2:02 am</div>
 
+        <span className="chat__options__icons">
         {true &&   
             <span title="Archieved chat">
               <ArchiveIcon  className="pin__icon"/> 
             </span>
         }
 
-        {false &&   
+        {true &&   
             <span title="Pinned chat">
               <ColorizeIcon  className="pin__icon"/> 
             </span>
@@ -42,7 +45,7 @@ function ChatItem() {
                    <div className="option__item">Archive chat</div>
                </div>
            }  
-
+            </span>
         </div>
     </div>
     )

@@ -11,6 +11,11 @@
   --lightBackground:rgb(238, 231, 231);
 }
 
+
+.Toastify__progress-bar--dark {
+    background: #00bfa5 !important;
+}
+
 .theme__font{
     color:var(--darkFontColor);
 }

@@ -17,6 +17,14 @@
     align-items: center;
 }
 
+
+
+.noc{
+ margin-top: 10px;
+ display: flex;
+ flex-direction: row-reverse;
+}
+
 .profile__back{
     margin-right: 10px;
     margin-top: 5px;
@@ -40,12 +48,16 @@
     margin-left: auto;
     margin-right: auto;
     border-radius: 50%;
-    width: 100%;
-    max-width: 200px;
+    width: 200px;
+    height:200px;
     margin-top: 20px;
-    object-fit: cover;
+    object-fit:cover;
     object-position: center;
- 
+}
+
+
+#uploadId{
+  display: none;
 }
 .chpic{
     margin-top: 5px;

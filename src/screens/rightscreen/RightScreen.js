@@ -9,3 +9,4 @@ function RightScreen() {
 }
 
 export default RightScreen
+

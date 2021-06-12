@@ -5,6 +5,8 @@
     padding: 10px;
     border-top:1px solid rgba(128, 128, 128, 0.5);
     border-bottom:1px solid rgba(128, 128, 128, 0.5);
+    
+    height:100%;
  }
 .chat__item:hover{
     background-color: rgba(128, 128, 128, 0.2);
@@ -24,9 +26,26 @@
  }
 
  .chat__item__options{
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-left: auto;
     position: relative;
-    
+    height:100% !important;  
+ }
+
+
+.time{
+   display: flex;
+   margin-left: auto;
+   font-size: 14px;
+   color:rgb(173, 169, 169);
+}
+
+ .chat__options__icons{
+    display: flex;
+    align-items: center;
  }
 
  .pin__icon{
@@ -34,8 +53,9 @@
     height: 20px !important;
     width: 20px !important;
     border-radius: 50%;
-    margin-bottom: 8px;
+
     margin-right: 5px;
+
     
  }
  .expand__icon{
@@ -97,8 +117,3 @@
   background-color:rgba(139, 136, 136, 0.2) ;
 }
 
-.chat__subtext{
-
- white-space:nowrap;
- max-width:50px ;
-}
