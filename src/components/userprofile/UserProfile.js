@@ -1,17 +1,22 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import Axios from 'axios'
 import './UserProfile.css'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DoneIcon from '@material-ui/icons/Done';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import {db} from '../../firebase'
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../../App';
+import firebase from 'firebase'
 
 
 
 function UserProfile({change}) {
+    
+ const updateAuth = useContext(AuthContext);
+
+
 const [username,setUsername]=useState('');
 const [status,setStatus]=useState('');
 
@@ -24,14 +29,34 @@ const [user,setUser]=useState({
 });
 
 useEffect(()=>{
-   db.collection('users').doc('vineeth').get()
-   .then((res)=> {
-        setUser(res.data());
-        setUsername(res.data().username);
-        setStatus(res.data().status);
+
+
+    firebase.auth().onAuthStateChanged((user)=>{
+        if(user){
+           db.collection('users').doc(user.uid).get()
+           .then((userDet)=>{
+               setUser(userDet.data());
+               setUsername(userDet.data().uname);
+               setStatus(userDet.data().status);
+           })
+           
+        } else{
+         updateAuth(false);
+        }
+    })
+
+
+//    db.collection('users').doc(uname).get()
+//    .then((res)=> {
+//         setUser(res.data());
+//         setUsername(res.data().username);
+//         setStatus(res.data().status);
         
-   });
-  
+//    });
+
+
+
+
 },[]);
 
 
@@ -43,7 +68,7 @@ const uploadImage=(files)=>{
 
         toast.dark('Uploading image', {
             position: "bottom-left",
-            autoClose: 3000,
+            autoClose: 4300,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
@@ -58,7 +83,7 @@ const uploadImage=(files)=>{
         Axios.post("https://api.cloudinary.com/v1_1/dpjkblzgf/image/upload",formData)
         .then((response)=>{
             setUser({...user,dp:response.data.secure_url});
-            db.collection('users').doc('vineeth').set({
+            db.collection('users').doc(user.uid).set({
                 dp:response.data.secure_url
             },{merge:true});
         }) 
@@ -66,7 +91,7 @@ const uploadImage=(files)=>{
     } else {
         toast.error('Keep image size below 1Mb', {
             position: "bottom-left",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
@@ -80,7 +105,7 @@ const uploadImage=(files)=>{
      if(files[0]){
     toast.error('Not an image', {
         position: "bottom-left",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
@@ -127,15 +152,40 @@ const uploadImage=(files)=>{
                 <div className="inp__name">
                     <input spellCheck="false" className=" theme__font " type="text" value={username} onChange={(e)=>setUsername(e.target.value)}/>
                     
-                    {username.trim()!==user.username && username.length >=3 &&
+                    {username.trim()!==user.uname && username.length >=3 &&
                        
                        <div className="inp__tick " onClick={()=>
-                        {setUser({...user,username:username});
-                         db.collection('users').doc('vineeth').set({
-                            ...user,
-                            username:username
-                         },{merge:true});  
-                         }  
+                        {
+                            db.collection('users').doc(user.uid).get()
+                            .then((res)=>{
+                              
+
+                                    setUser({...user,uname:username});
+                                    db.collection('users').doc(user.uid).set({
+                                     ...user,
+                                     uname:username
+                                  },{merge:true});  
+
+                                  toast.dark('Username changed successfully', {
+                                    position: "bottom-left",
+                                    autoClose: 1000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: false,
+                                    draggable: false,
+                                    progress: undefined,
+                                    });
+                                
+
+
+                                 
+                            })
+                            
+                           
+                         
+                        
+                        
+                        }  
                         }>
                              <DoneIcon/>
                         </div>
@@ -147,15 +197,30 @@ const uploadImage=(files)=>{
                 <h3 className="about__prof theme__h3">About</h3>
                 <div className="inp__status">
 
-                    <textarea maxLength="50" rows="1" spellCheck="false" className="status__inp  theme__font " type="text" value={status} onChange={(e)=>setStatus(e.target.value)}/>
+                    <textarea maxLength="50" rows="2" spellCheck="false" className="status__inp  theme__font " type="text" value={status} onChange={(e)=>setStatus(e.target.value)}/>
                     
                     {status.trim()!==user.status  &&
                         <div  className="inp__tick " onClick={()=>
-                            {setUser({...user,status:status});
-                             db.collection('users').doc('vineeth').set({
+                            {
+
+                                
+                                setUser({...user,status:status});
+                             db.collection('users').doc(user.uid).set({
                                 ...user,
                                 status:status
                              },{merge:true});  
+
+                             
+                             toast.dark('Status changed successfully', {
+                                position: "bottom-left",
+                                autoClose: 1000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: false,
+                                draggable: false,
+                                progress: undefined,
+                                });
+
                              }  
                             }>
                              <DoneIcon/>

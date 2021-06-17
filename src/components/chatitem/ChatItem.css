@@ -48,7 +48,7 @@
     align-items: center;
  }
 
- .pin__icon{
+ .block__icon{
     position: relative;
     height: 20px !important;
     width: 20px !important;
