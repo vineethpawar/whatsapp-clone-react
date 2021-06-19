@@ -5,11 +5,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import ChatItem from '../chatitem/ChatItem';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {db} from "../../firebase"
-import { UserContext } from '../../App';
+import { AuthContext } from '../../App';
+import firebase from 'firebase'
 
 
-
-function BlockedList({change}) {
+function ArchievedList({change}) {
 
 
     const filterFun=(arr,searchInp)=>{
@@ -18,8 +18,7 @@ function BlockedList({change}) {
 
 
    const [searchName,setSearchName] = useState('');
-   const userContext = useContext(UserContext);
-   const {uname}= userContext;
+   const updateAuth = useContext(AuthContext);
    const [chats,setChats]=useState([]);
    const [filteredChats,setFilteredChats]=useState([]);
   
@@ -31,31 +30,49 @@ function BlockedList({change}) {
    const [menuOptions,setMenuOptions]=useState(false);
    
    useEffect(()=>{
-    db.collection('users').doc(uname).get()
-    .then((res)=> {
-         setUser(res.data());      
-    });
+
+    firebase.auth().onAuthStateChanged((user)=>{
+        if(user){
+           db.collection('users').doc(user.uid).get()
+           .then((userDet)=>{
+               setUser(userDet.data());
+               return userDet.data();
+           }).then((usr)=>{
+
+
+            db.collection('chats').where('chatid','in',usr.blocked).where('members','array-contains',usr.uid).orderBy('timestamp','desc').onSnapshot((snapshot)=>{
+
+                setChats(snapshot.docs.map(doc=>(
+                    {
+                        id:doc.id,
+                        data:doc.data()
+                    }
+                )))
+     
+            });
+
+
+           })
+           
+         
+
+
+
+
+        } else{
+         updateAuth(false);
+        }
+    })
+
+
+   });
 
    
-  
-    db.collection('chats').where('members','array-contains',uname).orderBy('timestamp','desc').onSnapshot((snapshot)=>{
-
-        setChats(snapshot.docs.map(doc=>(
-            {
-                id:doc.id,
-                data:doc.data()
-            }
-        )))
-
-      
-    });
 
     
    
 
-    
-   
-   },[chats]);
+
    
     return (
         <div className="chat__list theme__bg theme__font">
@@ -95,24 +112,22 @@ function BlockedList({change}) {
                  <div className="chat__container">
 
                    
-                   {!searchName.length ?
-                     chats.map(({id,data:{chatid,groupdp,groupname,type,members,messages,description}})=>
+                 {!searchName.length ?
+                     chats.map(({id,data:{chatid,chatname,dp,type,members,description}})=>
 
-                         <ChatItem key={id} name={groupname}  dp={groupdp} status={description}/>
+                         <ChatItem key={id} uid={user.uid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} />
                         
                      )  :
                      
-                     filteredChats.map(({id,data:{chatid,groupdp,groupname,type,members,messages,description}})=>
+                     filteredChats.map(({id,data:{chatid,chatname,dp,type,members,description}})=>
 
-                     <ChatItem key={id} name={groupname}  dp={groupdp} status={description}/>
+                         <ChatItem key={id} uid={user.uid}  chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} />
                     
                  )
                         
-                    }    
+                    }     
                     
-                    {
-                       
-                    }
+                    
                    
                  </div>
              
@@ -129,5 +144,5 @@ function BlockedList({change}) {
     )
 }
 
-export default BlockedList
+export default ArchievedList
    

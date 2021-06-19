@@ -1,11 +1,12 @@
 import React,{useEffect,useState,createContext} from 'react'
-
+import uuid from 'react-uuid'
 import './App.css';
 import LeftScreen from './screens/leftscreen/LeftScreen';
 import RightScreen from './screens/rightscreen/RightScreen';
 import firebase from 'firebase'
 import {db,auth} from './firebase'
 import Auth from './screens/authentication/Auth';
+import {format} from 'date-fns'
 
 export const AuthContext = createContext();
 
@@ -13,6 +14,7 @@ export const AuthContext = createContext();
 
 
 function App() {
+ 
   const [isLoggedIn,setIsLoggedIn]=useState(false);
   const [isLoading,setIsLoading]=useState(true);
 
@@ -25,6 +27,22 @@ function App() {
   }
   
   useEffect(()=>{
+
+    // db.collection('chats').doc('chat5').set({
+    //   members:['nuVKNQLZN1ROgl155Uv9uv80fr23','7Kdecovwk1NKUuIXEXzUuo1UngC3'],
+    //   membersMail:['vineethpawar99@gmail.com','pawar1vineeth@gmail.com']
+    // },{merge:true})
+
+    console.log(`uuid : ${uuid()}`)
+    console.log(format(new Date('Thu Jun 17 2021 22:28:41 GMT+0530 (India Standard Time)'), ' hh:mm aaa'));
+    // db.collection('dates').doc('2').set({
+    //     date:`${new Date()}`
+    // })
+   
+
+    // db.collection('dates').doc('2').get()
+    // .then((date)=>console.log(date.data().date))
+
     firebase.auth().onAuthStateChanged((user)=>{
       if(user){
           updateAuth(true);

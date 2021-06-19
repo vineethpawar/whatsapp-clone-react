@@ -17,7 +17,14 @@
     align-items: center;
 }
 
+.font__small{
+  font-size: 13px;
+}
 
+.font__medium{
+  font-size: 15px;
+  font-weight: 500;
+}
 
 .noc{
  margin-top: 10px;

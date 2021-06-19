@@ -115,13 +115,13 @@ function ArchievedList({change}) {
                  {!searchName.length ?
                      chats.map(({id,data:{chatid,chatname,dp,type,members,description}})=>
 
-                         <ChatItem key={id} uid={user.uid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} />
+                         <ChatItem key={id} uid={user.uid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} archieved={true} />
                         
                      )  :
                      
                      filteredChats.map(({id,data:{chatid,chatname,dp,type,members,description}})=>
 
-                         <ChatItem key={id} uid={user.uid}  chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} />
+                         <ChatItem key={id} uid={user.uid}  chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} archieved={true} />
                     
                  )
                         

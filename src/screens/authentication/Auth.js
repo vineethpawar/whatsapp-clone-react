@@ -38,8 +38,8 @@ function Auth({isLoading}) {
                         umail:user.email,
                         dp:user.photoURL,
                         status:"Hey there! I am using Whatsapp",
-                        archieved:[],
-                        blocked:[],
+                        archieved:[0],
+                        blocked:[0],
          
                      },{merge:true});
                      updateAuth(true);
