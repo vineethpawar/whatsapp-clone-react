@@ -39,6 +39,7 @@
 .time{
    display: flex;
    margin-left: auto;
+   white-space: nowrap;
    font-size: 14px;
    color:rgb(173, 169, 169);
 }

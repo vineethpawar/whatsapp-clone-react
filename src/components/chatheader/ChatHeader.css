@@ -1,0 +1,29 @@
+.chat__header{
+    padding:7px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    cursor: pointer;
+}
+
+.ch__user__img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    margin-right: 10px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.chat__user__details__wrapper{
+    display: flex;
+    align-items: center;
+}
+
+.theme__uname{
+    font-size: 15px;
+    font-weight: 400;
+}

@@ -91,16 +91,7 @@ function ChatList({change}) {
     })
 
 
-
-  
-   
-
-    
-   
-
-    
-   
-   },[user0]);
+   },[]);
    
     return (
         <div className="chat__list theme__bg theme__font">
@@ -149,7 +140,7 @@ function ChatList({change}) {
 
             <div className="search__container theme__search theme__green__bg">
                    <SearchIcon className="search__icon" /> 
-                   <input spellCheck="false" className="search__inp theme__font" type="text" value={searchName} onChange={(e)=>{setSearchName(e.target.value);filterFun(chats,e.target.value)}} placeholder="Search or start new chat" id="" />
+                   <input spellCheck="false" className="search__inp theme__font" type="text" value={searchName} onChange={(e)=>{setSearchName(e.target.value);filterFun(chats,e.target.value)}} placeholder="Search or start new chat" />
             </div>
          </div>
         
@@ -162,17 +153,17 @@ function ChatList({change}) {
                    
                    {!searchName.length ?
                      chats.map(({id,userid,userArchieved,userBlocked,data:{chatid,chatname,dp,type,members,membersMail,description}})=>
-                     <div>
+                     <div key={id}>
                         {!userArchieved.includes(chatid) && !userBlocked.includes(chatid) &&
-                         <ChatItem key={id} uid={userid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} membersMail={membersMail} />
+                         <ChatItem uid={userid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} membersMail={membersMail} />
                         }
                      </div>
                      )  :
                      
                      filteredChats.map(({id,userid,userArchieved,userBlocked,data:{chatid,chatname,dp,type,members,membersMail,description}})=>
-                     <div>
+                     <div  key={id}>
                         {!userArchieved.includes(chatid) && !userBlocked.includes(chatid) &&
-                         <ChatItem key={id} uid={userid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} membersMail={membersMail} />
+                         <ChatItem uid={userid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} membersMail={membersMail} />
                         }
                      </div>
                     )

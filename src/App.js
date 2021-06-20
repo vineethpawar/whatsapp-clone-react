@@ -54,7 +54,7 @@ function App() {
         console.log('Not signed in');
       }
   })
-  },[isLoggedIn])
+  },[]) //isLoggedIn
   
     // db.collection('chats').doc('chat3').set({
     //   chatid:1113,

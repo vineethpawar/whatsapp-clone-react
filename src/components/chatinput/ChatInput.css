@@ -1,0 +1,132 @@
+.chat__name__input{
+   padding: 10px ;
+   display: flex;
+   align-items: center;
+   position:relative;
+  
+}
+
+.emote__icon{
+    height: 30px !important;
+    width: 30px !important;
+    padding: 2px;
+}
+
+.emote{
+    display: flex;
+    align-items: center;
+    border:3px solid transparent;
+    margin-right: 7px;
+    margin-left: 4px;
+    cursor: pointer;
+    border-radius: 50%;
+    
+}
+.emote:hover{
+    background-color: rgb(58, 53, 53);
+}
+
+
+.send_icon{
+    display: flex;
+    align-items: center;
+    border:3px solid transparent;
+    margin-right: 12px;
+    background-color:#00bfa5;
+    cursor: pointer;
+    border-radius: 50%;
+
+}
+
+.send_icon:hover{
+    background-color: #119281;
+}
+
+.mic_on{
+    background-color: rgb(189, 70, 70) !important;
+}
+
+.input__bar{
+    display: flex;
+    align-items: center;
+    border-radius: 30px;
+   width:100%;
+   padding: 10px  15px 3px;
+   min-height:35px;
+}
+
+#emojiid{
+    z-index:5;
+    position:absolute;
+    bottom:100%;
+    left:0;
+    background-color: #fff !important;
+
+}
+
+emoji-picker {
+    --background: rgb(87, 160, 136);
+    --background: rgb(51, 56, 55);
+  }
+
+
+.input__bar__textarea{
+   background-color: transparent;
+    resize:none;
+    font-size: 16px ;
+    font-family: sans-serif;
+    border:none;
+    width: 100%;
+    margin-right: 30px;
+    outline:none;
+}
+
+.input__bar__textarea::-webkit-scrollbar{
+    display: none;
+}
+
+.img__upload__wrapper{
+    position:absolute;
+    bottom:100%;
+    left:0;
+    right:0;
+     display: flex; 
+     padding: 10px 15px;  
+     height: 300px;
+}
+
+.img__upload{
+    width:auto;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;  
+  
+}
+
+.rem_img_icon{
+    position:absolute;
+    right:0;
+    top:0;
+}
+
+.img__bundle{
+    position:relative;
+    display: flex;
+    z-index:3;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.del_icon{
+    color:rgb(168, 29, 29);
+}
+
+.bg__grey{
+    background-color: rgb(235, 217, 217);
+    border-color:rgb(168, 29, 29);
+   
+}
+
+.bg__grey:hover{
+    background-color: rgb(192, 171, 171);
+}

@@ -3,12 +3,13 @@ import './Auth.css'
 import {db,auth} from '../../firebase'
 import firebase from 'firebase'
 import {AuthContext} from '../../App'
-
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 
 function Auth({isLoading}) {
 
    const updateAuth = useContext(AuthContext);
-  
+
+    const [userCount,setUserCount] = useState([]) ;
 
        const signin = () => {
         var provider = new firebase.auth.GoogleAuthProvider();
@@ -26,7 +27,6 @@ function Auth({isLoading}) {
             db.collection('users').doc(user.uid).get()
             .then((res)=>{
                 if(res.exists){
-
                     console.log('Old User');
                     updateAuth(true);
                 }
@@ -54,21 +54,39 @@ function Auth({isLoading}) {
         });
     }
 
+    useEffect(()=>{
+        db.collection('users').onSnapshot((snapshot)=>{
+
+            setUserCount(snapshot.docs.map(doc=>(
+                {
+                    id:doc.id,
+                    data:doc.data(),
+                  
+                }
+              
+            )))
+
+       })
+    },[])
+
 
     return (
         <div className="auth theme__bg">
             <div className="wave"></div>
-   <img className="w__logo" src="https://i.pinimg.com/originals/91/9d/f0/919df067a8fbd22ce7b6f401b7688b35.png" alt="" />
+                <img className="w__logo" src="https://i.pinimg.com/originals/91/9d/f0/919df067a8fbd22ce7b6f401b7688b35.png" alt="" />
                {/* <span className="center text_white">
                Made by:
               <a href="#" className="name">Vineeth Pawar</a>   
               </span>  */}
+              <h1 className="theme__h3 font__large"><PermIdentityIcon className="usrcount__icon" /> {!userCount.length ? '--' : userCount.length } </h1>
             {isLoading ?  
               <img src="https://thumbs.gfycat.com/WhirlwindQuarterlyAustraliansilkyterrier-size_restricted.gif" className="preloader" alt="" />
                 :
-            <button className="join__btn" onClick={()=>{signin()}}>Sign in 
-            <img className="google__logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png" alt="" />
-            </button>
+                <div className="btn__container">
+                    <button className="join__btn" onClick={()=>{signin()}}>Sign in 
+                    <img className="google__logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png" alt="" />
+                    </button>
+            </div>
             }
         </div>
     )

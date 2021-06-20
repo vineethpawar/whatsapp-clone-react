@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../App';
 import firebase from 'firebase'
+import EditIcon from '@material-ui/icons/Edit';
 
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
@@ -23,6 +24,8 @@ function UserProfile({change}) {
 
 const [username,setUsername]=useState('');
 const [status,setStatus]=useState('');
+
+
 
 
 const [user2,setUser2]=useState({
@@ -122,7 +125,7 @@ const uploadImage=(files)=>{
 
     return (
         <div className="user__profile theme__bg theme__font">
-           <div className="profile__header theme__green__bg">
+           <div className="profile__header sticky__top theme__green__bg">
                <span onClick={()=>change('chatlist')}>
                    
                 <ArrowBackIcon className="profile__back"/> 
@@ -151,10 +154,12 @@ const uploadImage=(files)=>{
                     </label>
                  </div>
 
-                <h3 className="theme__h3">Your Name</h3>  
+                <h3 className="theme__h3 edit__head">Your Name  <label htmlFor="name"> <EditIcon className="edit__pen"/></label> </h3>  
+               
+               
 
                 <div className="inp__name">
-                    <input spellCheck="false" className=" theme__font " type="text" value={username} onChange={(e)=>setUsername(e.target.value)}/>
+                    <input id="name" spellCheck="false" className=" theme__font " type="text" value={username} onChange={(e)=>setUsername(e.target.value)}/>
                     
                     {username.trim()!==user2.uname && username.length >=3 &&
                        
@@ -198,10 +203,10 @@ const uploadImage=(files)=>{
                
                 </div>
                
-                <h3 className="about__prof theme__h3">About</h3>
+                <h3 className="about__prof theme__h3 edit__head">About  <label htmlFor="about"> <EditIcon className="edit__pen"/></label></h3>
                 <div className="inp__status">
 
-                    <textarea maxLength="50" rows="2" spellCheck="false" className="status__inp  theme__font " type="text" value={status} onChange={(e)=>setStatus(e.target.value)}/>
+                    <textarea id="about" maxLength="50" spellCheck="false" className="status__inp  theme__font " type="text" value={status}  onChange={(e)=>setStatus(e.target.value)}/>
                     
                     {status.trim()!==user2.status  &&
                         <div  className="inp__tick " onClick={()=>

@@ -17,8 +17,8 @@ function LeftScreen() {
 
        { leftScreen==='userprofile'  &&     <UserProfile change={leftScreenChange}/> }
        { leftScreen==='chatlist'     &&    <ChatList change={leftScreenChange}/> }
-       { leftScreen==='archieved'  && <ArchievedList change={leftScreenChange}/>}
-       { leftScreen==='blocked'  && <BlockedList change={leftScreenChange}/>}
+       { leftScreen==='archieved'  &&   <ArchievedList change={leftScreenChange}/>}
+       { leftScreen==='blocked'  &&    <BlockedList change={leftScreenChange}/>}
         </div>
     )
 }
