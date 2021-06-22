@@ -6,7 +6,7 @@ import RightScreen from './screens/rightscreen/RightScreen';
 import firebase from 'firebase'
 import {db,auth} from './firebase'
 import Auth from './screens/authentication/Auth';
-import {format} from 'date-fns'
+import {format,isToday,isThisWeek,isYesterday} from 'date-fns'
 
 export const AuthContext = createContext();
 
@@ -14,7 +14,29 @@ export const AuthContext = createContext();
 
 
 function App() {
- 
+
+
+  const  getTimeOnly = (timestamp) =>{
+      return format(new Date(timestamp), ' hh:mm aaa')
+  }
+
+
+  const  getDateOnly = (timestamp) =>{
+    if(isToday(new Date(timestamp))) return 'today'
+    else if(isYesterday(new Date(timestamp))) return 'yesterday'
+    else if(isThisWeek(new Date(timestamp))) return format(new Date(timestamp), 'eeee')
+    else  return format(new Date(timestamp), ' dd/MM/yyyy')
+  }
+
+  
+  const  getLastTextTime = (timestamp)=>{
+      if(isToday(new Date(timestamp))) return format(new Date(timestamp), ' hh:mm aaa')
+      else if(isYesterday(new Date(timestamp))) return 'yesterday'
+      else if(isThisWeek(new Date(timestamp))) return format(new Date(timestamp), 'eeee')
+      else  return format(new Date(timestamp), ' dd/MM/yyyy')
+  }
+
+  
   const [isLoggedIn,setIsLoggedIn]=useState(false);
   const [isLoading,setIsLoading]=useState(true);
 
@@ -28,13 +50,10 @@ function App() {
   
   useEffect(()=>{
 
-    // db.collection('chats').doc('chat5').set({
-    //   members:['nuVKNQLZN1ROgl155Uv9uv80fr23','7Kdecovwk1NKUuIXEXzUuo1UngC3'],
-    //   membersMail:['vineethpawar99@gmail.com','pawar1vineeth@gmail.com']
-    // },{merge:true})
 
-    console.log(`uuid : ${uuid()}`)
-    console.log(format(new Date('Thu Jun 17 2021 22:28:41 GMT+0530 (India Standard Time)'), ' hh:mm aaa'));
+    // console.log(`uuid : ${uuid()}`)
+    // console.log('time is ',getLastTextTime('Thu Jun 20 2021 22:28:41 GMT+0530 (India Standard Time)'));
+ 
     // db.collection('dates').doc('2').set({
     //     date:`${new Date()}`
     // })
@@ -54,7 +73,8 @@ function App() {
         console.log('Not signed in');
       }
   })
-  },[]) //isLoggedIn
+  },[]) 
+  //isLoggedIn
   
     // db.collection('chats').doc('chat3').set({
     //   chatid:1113,

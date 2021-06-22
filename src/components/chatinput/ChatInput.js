@@ -1,6 +1,7 @@
 import React,{useEffect,useState,useContext} from 'react'
 import './ChatInput.css'
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
+import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import PhotoIcon from '@material-ui/icons/Photo';
 import MicNoneOutlinedIcon from '@material-ui/icons/MicNoneOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
@@ -161,7 +162,11 @@ function ChatInput() {
 
 
             <div className="emote" title="emote" onClick={listening ? null :()=>{setEmojiOptions(!emojiOptions)}}>
+                {emojiOptions ? 
+                <EmojiEmotionsIcon className="emote__icon"/>
+                   :
                 <EmojiEmotionsOutlinedIcon className="emote__icon"/>
+                 }
             </div>
 
             <label htmlFor="img_upload_input">

@@ -4,6 +4,7 @@ import UserProfile from '../../components/userprofile/UserProfile'
 import ChatList from '../../components/chatlist/ChatList'
 import ArchievedList from './../../components/archieved/ArchievedList';
 import BlockedList from './../../components/blocked/BlockedList';
+import AddContact from './../../components/addcontact/AddContact';
 
 function LeftScreen() {
     const [leftScreen,setLeftScreen]=useState('chatlist');
@@ -19,6 +20,7 @@ function LeftScreen() {
        { leftScreen==='chatlist'     &&    <ChatList change={leftScreenChange}/> }
        { leftScreen==='archieved'  &&   <ArchievedList change={leftScreenChange}/>}
        { leftScreen==='blocked'  &&    <BlockedList change={leftScreenChange}/>}
+       { leftScreen==='createuserchat'  &&    <AddContact change={leftScreenChange}/>}
         </div>
     )
 }

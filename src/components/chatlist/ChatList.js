@@ -56,8 +56,14 @@ function ChatList({change}) {
    });
 
    const [menuOptions,setMenuOptions]=useState(false);
+   const [newChatOptions,setNewChatOptions]=useState(false);
    
    useEffect(()=>{
+       
+  db.collection('chats').doc('chat1').set({
+        lastTexted:`${new Date()}`,
+        timestamp:firebase.firestore.FieldValue.serverTimestamp()
+       },{merge:true})
 
 
     firebase.auth().onAuthStateChanged((user0)=>{
@@ -74,6 +80,7 @@ function ChatList({change}) {
                         id:doc.id,
                         data:doc.data(),
                         userid:user.uid,
+                        usermail:user.umail,
                         userArchieved: user.archieved,
                         userBlocked:user.blocked
                     }
@@ -109,8 +116,14 @@ function ChatList({change}) {
                     <span title="Status">
                         <DonutLargeIcon className="chat__icon"/>
                     </span>
-                    <span title="New chat">
+                    <span title="New chat" className="menu__span" onClick={()=>{newChatOptions?setNewChatOptions(false):setNewChatOptions(true)}}>
                         <AddIcon className="chat__icon"/>
+                        {newChatOptions && 
+                        <div className="menu__options theme__green__bg">
+                            <div onClick={()=>change('createuserchat')} className="menu__option__item">Add new contact</div>
+                            <div onClick={()=>change('creategroupchat')} className="menu__option__item">Create group</div>
+                        </div>
+                        }
                     </span>
 
                     <span title="Menu" className="menu__span" onClick={()=>{menuOptions?setMenuOptions(false):setMenuOptions(true)}}>
@@ -152,18 +165,18 @@ function ChatList({change}) {
 
                    
                    {!searchName.length ?
-                     chats.map(({id,userid,userArchieved,userBlocked,data:{chatid,chatname,dp,type,members,membersMail,description}})=>
+                     chats.map(({id,userid,usermail,userArchieved,userBlocked,data:{chatid,chatname,dp,type,members,membersMail,description,lastTexted}})=>
                      <div key={id}>
                         {!userArchieved.includes(chatid) && !userBlocked.includes(chatid) &&
-                         <ChatItem uid={userid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} membersMail={membersMail} />
+                         <ChatItem uid={userid} umail={usermail} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} membersMail={membersMail} lastTexted={lastTexted}/>
                         }
                      </div>
                      )  :
                      
-                     filteredChats.map(({id,userid,userArchieved,userBlocked,data:{chatid,chatname,dp,type,members,membersMail,description}})=>
+                     filteredChats.map(({id,userid,usermail,userArchieved,userBlocked,data:{chatid,chatname,dp,type,members,membersMail,description,lastTexted}})=>
                      <div  key={id}>
                         {!userArchieved.includes(chatid) && !userBlocked.includes(chatid) &&
-                         <ChatItem uid={userid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} membersMail={membersMail} />
+                         <ChatItem uid={userid} umail={usermail} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} membersMail={membersMail} lastTexted={lastTexted} />
                         }
                      </div>
                     )

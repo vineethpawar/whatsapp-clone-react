@@ -1,6 +1,5 @@
 import React,{useState,useEffect,useContext} from 'react'
 import './ArchievedList.css'
-
 import SearchIcon from '@material-ui/icons/Search';
 import ChatItem from '../chatitem/ChatItem';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -8,14 +7,28 @@ import {db} from "../../firebase"
 import { AuthContext } from '../../App';
 import firebase from 'firebase'
 
+const umailExtractor = (umail)=>{
+    return umail.slice(0,umail.lastIndexOf('@'))
+}
+
 
 function ArchievedList({change}) {
 
 
     const filterFun=(arr,searchInp)=>{
-        setFilteredChats(arr.filter((ele)=>ele.data.description.includes(searchInp)));
-    }
 
+        if(searchInp.length) {
+        setFilteredChats(arr.filter((ele)=>
+               {   
+                   if(ele.data.chatname.includes(searchInp)) return true 
+                   else if(umailExtractor(ele.data.membersMail[0]).includes(searchInp) && ele.data.type==='personal' && ele.data.membersMail[0]!==user.umail) return true
+                   else if(umailExtractor(ele.data.membersMail[1]).includes(searchInp) && ele.data.type==='personal' && ele.data.membersMail[1]!==user.umail) return true
+                   else return false
+             })
+     
+         )
+       }
+     }
 
    const [searchName,setSearchName] = useState('');
    const updateAuth = useContext(AuthContext);
@@ -27,7 +40,7 @@ function ArchievedList({change}) {
       
    });
 
-   const [menuOptions,setMenuOptions]=useState(false);
+
    
    useEffect(()=>{
 
@@ -54,11 +67,6 @@ function ArchievedList({change}) {
 
            })
            
-         
-
-
-
-
         } else{
          updateAuth(false);
         }

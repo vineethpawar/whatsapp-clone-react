@@ -1,0 +1,107 @@
+.chat__list{
+    height: 100vh;
+    overflow-y: auto;
+
+  }
+  .chat__list::-webkit-scrollbar{
+      width:5px;
+  }
+  
+    .chat__list::-webkit-scrollbar-thumb {
+      background-color: var(--lightGreenBackground);
+      outline: 1px solid var(--lightGreenBackground);
+    }
+
+    .sticky__top{
+        position:sticky;
+        top:0;
+        z-index:10;
+        padding-bottom: 5px;
+    
+    }
+
+
+    .chatlist__header{
+        padding:7px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .user__img{
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    .chat__icons{
+        display: flex;
+        align-items: center;
+    }
+
+    .chat__icon{
+        cursor: pointer;
+        padding: 3px;
+        border-radius: 50%;
+        height: 35px !important;
+        width: 35px !important;
+        margin-left: 7px;
+        margin-right: 7px;
+    }
+
+    .chat__icon:hover{
+       background-color: rgba(107, 102, 102, 0.466);
+    }
+
+    .search__container{
+        display: flex;
+        padding-bottom: 1px;
+        padding-left: 10px;
+        padding-right: 10px;
+        align-items: center;
+        margin: 8px 10px;
+        border-radius: 30px;
+        height: 35px;
+        border:1px solid rgba(155, 149, 149, 0.555);
+        
+    }
+
+    .search__icon{
+        position: relative;
+        margin-bottom: -1px;
+        margin-right: 5px;
+    }
+
+    .search__inp{
+        background-color: transparent;
+        border:none;
+        outline: none;
+        font-size: 15px;
+        padding-bottom: 1px;
+        width:100%;
+    }
+
+    .archieved__header{
+        display: flex;
+        align-items: center;
+        padding: 15px 10px;
+    }
+
+    .arch__back__icon{
+        position: relative;
+        margin-top: 4px;
+        margin-right: 10px;
+        cursor: pointer;
+        height: 35px !important;
+        width: 35px !important;
+        padding: 5px;
+        border-radius: 50%;
+     
+    }
+   
+    .arch__back__icon:hover{
+        background-color: rgba(107, 102, 102, 0.466);
+    }
+   

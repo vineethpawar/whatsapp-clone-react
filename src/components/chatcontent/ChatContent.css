@@ -1,0 +1,63 @@
+
+.chat__content{
+   color:white;
+   display: flex;
+   flex-direction: column;
+}
+
+.chat__message{
+    position:relative;
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    max-width:50%;
+    margin: 10px 20px;
+    padding: 10px;
+    border-radius: 5px;
+    word-wrap:normal;
+    white-space: pre-wrap;
+    user-select: text;
+}
+
+.align_right{
+    margin-left: auto;
+    background-color:#0f5249
+}
+
+.cm__img{
+    position:relative;
+    height:auto;
+    width:100%; 
+    object-fit: contain;
+    max-height:400px;
+    max-width:100%;
+    border-radius: 10px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+   
+    cursor: pointer;
+}
+
+.cm__time{
+    display: flex;
+    margin-left: auto;
+    font-size: 13px;  
+    margin-top: 5px;
+}
+
+.cm__name{
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.cm__info{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width:fit-content;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
