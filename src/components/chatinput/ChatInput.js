@@ -29,7 +29,7 @@ const checkCombo = (event) =>{
 }
 
     const sendText = ()=>{
-         if(!listening && (document.getElementById('chattextbar').value.length > 0 || imgInput.length>0)) { 
+         if(!listening && (document.getElementById('chattextbar').value.trim().length > 0 || imgInput.length>0)) { 
             if(rightScreenChat[1]==='group') {
             db.collection('chats').doc(rightScreenChat[0]).set({
             messages:firebase.firestore.FieldValue.arrayUnion(
@@ -37,11 +37,13 @@ const checkCombo = (event) =>{
                     uid:user.uid,
                     from:umailExtractor(user.umail),
                     img:imgInput,
-                    content:document.getElementById('chattextbar').value,
+                    content:document.getElementById('chattextbar').value.trim(),
                     timePosted:`${new Date()}`,
                     type:'common'
                 }
-            )
+            ),
+            lastTexted:`${new Date()}`,
+            timestamp:firebase.firestore.FieldValue.serverTimestamp()
             },{merge:true})
          } 
 
@@ -56,7 +58,9 @@ const checkCombo = (event) =>{
                         timePosted:`${new Date()}`,
                         type:'common'
                     }
-                )
+                ),
+                lastTexted:`${new Date()}`,
+                timestamp:firebase.firestore.FieldValue.serverTimestamp()
                 },{merge:true})
          }
 

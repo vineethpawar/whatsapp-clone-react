@@ -95,7 +95,7 @@ useEffect(()=>{
 
 
 const createGroupHandler =()=>{
-    if(!groupName.length){
+    if(!groupName.trim().length){
         toast.error('Enter Group Name', {
             position: "top-left",
             autoClose: 2000,
@@ -124,8 +124,8 @@ const createGroupHandler =()=>{
     let dok = uuid();     
     db.collection('chats').doc(dok).set({
         chatid:dok,
-        chatname:groupName,
-        description:description,
+        chatname:groupName.trim(),
+        description:description.trim(),
         dp:groupImage,
         lastTexted:`${new Date()}`,
         members:[...addedContactsUid,user2.uid],
@@ -248,7 +248,7 @@ const uploadImage=(files)=>{
                 {addedContacts.length > 0 &&
                 <div className="contact_add_list">
                     {addedContacts.map((ele)=>
-                        <div key={ele.uid} className="contact_add_item">{umailExtractor(ele.umail)} <CancelIcon onClick={()=>{setAddedContacts([...addedContacts.filter((e)=>e !== ele)]);setAddedContactsMail([...addedContactsMail.filter((e)=>e !== ele.umail)]);setAddedContactsUid([...addedContactsUid.filter((e)=>e !== ele.uid)]);setSearchName('');}} className="cancel_icn" /></div>
+                        <div key={ele.uid} className="contact_add_item"><p>{umailExtractor(ele.umail)}</p> <CancelIcon onClick={()=>{setAddedContacts([...addedContacts.filter((e)=>e !== ele)]);setAddedContactsMail([...addedContactsMail.filter((e)=>e !== ele.umail)]);setAddedContactsUid([...addedContactsUid.filter((e)=>e !== ele.uid)]);setSearchName('');}} className="cancel_icn" /></div>
                     )}
                      
                 </div>

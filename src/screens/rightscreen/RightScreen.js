@@ -22,7 +22,6 @@ function RightScreen({rightScreenChat}) {
     const updateAuth = useContext(AuthContext);
 
     useEffect(()=>{
-        
       
         firebase.auth().onAuthStateChanged((user0)=>{
             if(user0){
@@ -35,7 +34,8 @@ function RightScreen({rightScreenChat}) {
              updateAuth(false);
             }
         })   
-    },[])
+        updateScroll();
+    },[rightScreenChat])
    
 
     return (

@@ -116,15 +116,12 @@ function ChatList({change}) {
                         userBlocked:user.blocked
                     }
                   
-                )))
-    
-           })
-
-        });
+                  )))
+                })
+             });
         
-
-        } else{
-         updateAuth(false);
+           } else {
+            updateAuth(false);
         }
     })
 

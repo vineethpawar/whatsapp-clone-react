@@ -66,9 +66,7 @@ function App() {
     firebase.auth().onAuthStateChanged((user)=>{
       if(user){
           updateAuth(true);
-     
-          
-         
+ 
       } else{
         updateAuth(false);
         updateLoader(false);

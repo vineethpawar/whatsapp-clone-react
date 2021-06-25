@@ -159,7 +159,7 @@ const uploadImage=(files)=>{
                
 
                 <div className="inp__name">
-                    <input id="name" spellCheck="false" className=" theme__font " type="text" value={username} onChange={(e)=>setUsername(e.target.value)}/>
+                    <input id="name" spellCheck="false" className=" theme__font " type="text" value={username} onChange={(e)=>setUsername(e.target.value.trim)}/>
                     
                     {username.trim()!==user2.uname && username.length >=3 &&
                        
@@ -184,16 +184,7 @@ const uploadImage=(files)=>{
                                     draggable: false,
                                     progress: undefined,
                                     });
-                                
-
-
-                                 
                             })
-                            
-                           
-                         
-                        
-                        
                         }  
                         }>
                              <DoneIcon/>
@@ -206,7 +197,7 @@ const uploadImage=(files)=>{
                 <h3 className="about__prof theme__h3 edit__head">About  <label htmlFor="about"> <EditIcon className="edit__pen"/></label></h3>
                 <div className="inp__status">
 
-                    <textarea id="about" maxLength="50" spellCheck="false" className="status__inp  theme__font " type="text" value={status}  onChange={(e)=>setStatus(e.target.value)}/>
+                    <textarea id="about" maxLength="50" spellCheck="false" className="status__inp  theme__font " type="text" value={status}  onChange={(e)=>setStatus(e.target.value.trim)}/>
                     
                     {status.trim()!==user2.status  &&
                         <div  className="inp__tick " onClick={()=>
