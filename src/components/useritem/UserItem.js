@@ -1,16 +1,13 @@
-import React,{useState,useEffect} from 'react'
+import React from 'react'
 import './UserItem.css'
-import AddIcon from '@material-ui/icons/Add';
-import { db } from '../../firebase';
-import {format} from 'date-fns'
-import firebase from 'firebase'
+
 
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
 }
 
 
-function UserItem({selfid,uid,uname,umail,dp,status}) {
+function UserItem({uname,umail,dp,status}) {
     
 
  
@@ -21,9 +18,6 @@ function UserItem({selfid,uid,uname,umail,dp,status}) {
     // });
 
 
-    useEffect(()=>{
-
-    },[]) 
 
     return (
    

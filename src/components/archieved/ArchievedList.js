@@ -1,10 +1,9 @@
-import React,{useState,useEffect,useContext} from 'react'
+import React,{useState,useEffect} from 'react'
 import './ArchievedList.css'
 import SearchIcon from '@material-ui/icons/Search';
 import ChatItem from '../chatitem/ChatItem';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {db} from "../../firebase"
-import { AuthContext } from '../../App';
 import firebase from 'firebase'
 
 const umailExtractor = (umail)=>{
@@ -13,14 +12,17 @@ const umailExtractor = (umail)=>{
 
 
 function ArchievedList({change}) {
-
+    const [selectedChat,setSelectedChat]=useState('0')
+    const changeSelectedChat=(chat)=>{
+        setSelectedChat(chat);
+    }
 
     const filterFun=(arr,searchInp)=>{
 
         if(searchInp.length) {
         setFilteredChats(arr.filter((ele)=>
                {   
-                   if(ele.data.chatname.includes(searchInp)) return true 
+                   if(ele.data.chatname.toLowerCase().includes(searchInp.toLowerCase())) return true 
                    else if(umailExtractor(ele.data.membersMail[0]).includes(searchInp) && ele.data.type==='personal' && ele.data.membersMail[0]!==user.umail) return true
                    else if(umailExtractor(ele.data.membersMail[1]).includes(searchInp) && ele.data.type==='personal' && ele.data.membersMail[1]!==user.umail) return true
                    else return false
@@ -31,7 +33,7 @@ function ArchievedList({change}) {
      }
 
    const [searchName,setSearchName] = useState('');
-   const updateAuth = useContext(AuthContext);
+
    const [chats,setChats]=useState([]);
    const [filteredChats,setFilteredChats]=useState([]);
   
@@ -67,8 +69,6 @@ function ArchievedList({change}) {
 
            })
            
-        } else{
-         updateAuth(false);
         }
     })
 
@@ -98,7 +98,7 @@ function ArchievedList({change}) {
                              <ArrowBackIcon className="arch__back__icon" />
                       </span>
 
-                        Archieved chats</h2>
+                        Archived chats</h2>
               </div>
             
         
@@ -121,15 +121,15 @@ function ArchievedList({change}) {
 
                    
                  {!searchName.length ?
-                     chats.map(({id,data:{chatid,chatname,dp,type,members,description}})=>
+                     chats.map(({id,data:{chatid,chatname,dp,type,members,lastTexted,description}})=>
 
-                         <ChatItem key={id} uid={user.uid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} archieved={true} />
+                         <ChatItem key={id} changeSelectedChat={changeSelectedChat} selectedChat={selectedChat} uid={user.uid} chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} lastTexted={lastTexted} archieved={true} />
                         
                      )  :
                      
-                     filteredChats.map(({id,data:{chatid,chatname,dp,type,members,description}})=>
+                     filteredChats.map(({id,data:{chatid,chatname,dp,type,members,lastTexted,description}})=>
 
-                         <ChatItem key={id} uid={user.uid}  chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description} archieved={true} />
+                         <ChatItem key={id} changeSelectedChat={changeSelectedChat} selectedChat={selectedChat}  uid={user.uid}  chatid={chatid} chatname={chatname} dp={dp} type={type} members={members} description={description}  lastTexted={lastTexted} archieved={true} />
                     
                  )
                         

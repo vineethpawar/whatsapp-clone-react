@@ -76,7 +76,7 @@
 .menu__options{
    padding-top: 5px;
    padding-bottom: 5px;
-   z-index: 2;
+   z-index: 40;
    top:100%;
    right:5px;
    margin-top: -5px;
@@ -99,7 +99,6 @@
 .options{
     padding-top: 5px;
     padding-bottom: 5px;
-    z-index: 2;
     top:100%;
     right:5px;
     margin-top: -5px;

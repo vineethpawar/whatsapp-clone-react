@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import './ChatItem.css'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import BlockIcon from '@material-ui/icons/Block';
@@ -7,6 +7,8 @@ import GroupIcon from '@material-ui/icons/Group';
 import { db } from '../../firebase';
 import {format,isToday,isThisWeek,isYesterday} from 'date-fns'
 import firebase from 'firebase'
+import {UpdateRightScreen} from '../../App'
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const umailExtractor = (umail)=>{
@@ -14,10 +16,10 @@ const umailExtractor = (umail)=>{
 }
 
 
-function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memebersMail,lastTexted,archieved=false,blocked=false}) {
-   
-
-    const  getLastTextTime = (timestamp)=>{
+function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,type,members,description,memebersMail,lastTexted,archieved=false,blocked=false}) {
+    const updateRightScreenChat = useContext(UpdateRightScreen);
+  
+    const getLastTextTime = (timestamp)=>{
         if(isToday(new Date(timestamp))) return format(new Date(timestamp), ' hh:mm aaa')
         else if(isYesterday(new Date(timestamp))) return 'yesterday'
         else if(isThisWeek(new Date(timestamp))) return format(new Date(timestamp), 'eeee')
@@ -32,6 +34,8 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
             membersMail:firebase.firestore.FieldValue.arrayRemove(umail)
         })
     }
+
+
     const archieveItemHandler=()=>{
 
         setDisplay(false);
@@ -72,12 +76,9 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
 
     useEffect(()=>{
 
-        
-  
-
-
         if(type==="personal"){
             if(members[0]===uid){
+              
                 db.collection('users').doc(members[1]).get()
                 .then((usr)=>{
                     setUser1(usr.data())
@@ -85,6 +86,7 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
                
             }
             else if(members[1]===uid){
+           
                 db.collection('users').doc(members[0]).get()
                 .then((usr)=>{
                     setUser1(usr.data())
@@ -94,10 +96,36 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
     },[]) 
 
     return (
-    <div style={ display ? {display:'block'} : {display:'none'}}>
-
+    <div style={ display ? {display:'block',position:'relative'} : {display:'none',position:'relative'}}>
+        <ToastContainer/>
+    <div className="chat__item" onClick={blocked ? 
+        ()=>{
+            toast.error('Unblock chat to view messages', {
+                position: "bottom-left",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                });
+        }
+        :()=>{
+        changeSelectedChat(chatid);
+        if(type==='personal'){ 
+            if(uid===members[0])
+                 updateRightScreenChat(members[1],type,chatid); 
+            else 
+                updateRightScreenChat(members[0],type,chatid);  
+            }  
+        else updateRightScreenChat(chatid,type,0);
+        }
+    
+    
+    }
+     style={{position:'absolute',height:'100%',width:'100%',cursor:'pointer'}}></div>
         {type==='personal' ? 
-                <div  className={ false ? "chat__item chat__item__selected":"chat__item"} >
+                <div  className={ selectedChat===chatid ? "chat__item chat__item__selected":"chat__item"} >
                     <img src={user1.dp} 
                     className="chat__dp" alt="" />
                     <div className="chat__details">
@@ -115,7 +143,7 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
 
                     <span className="chat__options__icons">
                     {archieved &&   
-                        <span title="Archieved chat">
+                        <span title="Archived chat">
                         <ArchiveIcon  className="pin__icon"/> 
                         </span>
                     }
@@ -131,9 +159,9 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
                     </span>
 
                     { options &&
-                        <div className="options theme__green__bg" onClick={()=>setOptions(!options)}>
+                        <div style={{position:'absolute'}} className="options theme__green__bg" onClick={()=>setOptions(!options)}>
                          {!blocked &&   
-                            <div onClick={archieveItemHandler} className="option__item">{archieved ? 'Unarchieve chat':'Archieve chat'}</div>
+                            <div onClick={archieveItemHandler} className="option__item">{archieved ? 'Unarchive chat':'Archive chat'}</div>
                          }
                             <div onClick={blockItemHandler} className="option__item">{blocked ? 'Unblock chat' : 'Block chat'}</div>
 
@@ -147,10 +175,10 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
 
                 </div>
 
-      :
+            :
 
 
-           <div className={ false ? "chat__item chat__item__selected":"chat__item"} >
+           <div className={ selectedChat===chatid ? "chat__item chat__item__selected":"chat__item"} >
            <img src={dp} 
            className="chat__dp" alt="" />
            <div className="chat__details">
@@ -168,7 +196,7 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
 
            <span className="chat__options__icons">
            {archieved &&   
-               <span title="Archieved chat">
+               <span title="Archived chat">
                <ArchiveIcon  className="pin__icon"/> 
                </span>
            }
@@ -184,9 +212,9 @@ function ChatItem({uid,umail,chatid,chatname,dp,type,members,description,memeber
            </span>
 
            { options &&
-               <div className="options theme__green__bg" onClick={()=>setOptions(!options)}> 
+               <div  style={{zIndex:'13'}} className="options theme__green__bg" onClick={()=>setOptions(!options)}> 
                       {!blocked &&   
-                          <div onClick={archieveItemHandler} className="option__item">{archieved ? 'Unarchieve chat':'Archieve chat'}</div>
+                          <div onClick={archieveItemHandler} className="option__item">{archieved ? 'Unarchive chat':'Archive chat'}</div>
                          }
                 <div onClick={blockItemHandler}  className="option__item">{blocked ? 'Unblock chat' : 'Block chat'}</div>
 

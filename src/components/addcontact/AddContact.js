@@ -1,11 +1,14 @@
-import React,{useState,useEffect,useContext} from 'react'
+import React,{useState,useEffect} from 'react'
 import './AddContact.css'
 import SearchIcon from '@material-ui/icons/Search';
 import UserItem from '../useritem/UserItem';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {db} from "../../firebase"
-import { AuthContext } from '../../App';
+import uuid from 'react-uuid'
+
 import firebase from 'firebase'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const umailExtractor = (umail)=>{
@@ -14,24 +17,70 @@ const umailExtractor = (umail)=>{
 
 
 function AddContact({change}) {
+    
+const addChatHandler =(uid,umail) => {
+    db.collection('users').doc(user5.uid).get()
+    .then((snapshot)=>{
+
+        if(snapshot.data().friends.includes(uid)){
+      
+        toast.error('Connection Chat already exists', {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            });
+         } else {
+        
+
+             db.collection('users').doc(user5.uid).set({
+              friends:firebase.firestore.FieldValue.arrayUnion(uid)
+              },{merge:true})
+
+            db.collection('users').doc(uid).set({
+             friends:firebase.firestore.FieldValue.arrayUnion(user5.uid)
+             },{merge:true})
+
+             let dok = uuid()
+             db.collection('chats').doc(dok).set({
+                chatid:dok,
+                chatname:"",
+                description:"",
+                dp:"",
+                lastTexted:`${new Date()}`,
+                members: [user5.uid,uid],
+                membersMail: [user5.umail,umail],
+                messages:[],
+                timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+                type:'personal'
+
+             })
+
+             change('chatlist')
+            
+            
+        } 
+   })
+}
 
     const filterFun=(searchInp)=>{
-    if(searchInp.length) {
-        setFilteredUsers(users.filter((ele)=>
-        {   
-          if(umailExtractor(ele.data.umail).includes(searchInp)) return true
-          else return false
-      })
-
-  )
-         
-    }
-}
+                if(searchInp.length) {
+                    setFilteredUsers(users.filter((ele)=>
+                    {   
+                    if(umailExtractor(ele.data.umail).toLowerCase().includes(searchInp.toLowerCase())) return true
+                    else return false
+                    })
+                 )
+               }
+             }
 
        
 
      const [searchName,setSearchName] = useState('');
-     const updateAuth = useContext(AuthContext);
+    
      const [users,setUsers]=useState([]);
      const [filteredUsers,setFilteredUsers]=useState([]);
     
@@ -66,9 +115,7 @@ function AddContact({change}) {
     
                })
                
-            } else{
-             updateAuth(false);
-            }
+            } 
         })
     
     
@@ -81,6 +128,19 @@ function AddContact({change}) {
 
         <div className="chat__list theme__bg theme__font">
       
+                         <ToastContainer
+                            position="bottom-left"
+                            autoClose={2500}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss={false}
+                            draggable={false}
+                            pauseOnHover={false}
+                            />
+
+
           <div className="sticky__top theme__bg">  
 
              <div className="chatlist__header theme__green__bg">
@@ -110,9 +170,9 @@ function AddContact({change}) {
                     
                     
                     filteredUsers.map(({id,data:{uid,uname,umail,dp,status}})=>
-
-                        <UserItem key={id} selfid={user5.uid} uid={uid} uname={uname} umail={umail} dp={dp} status={status} />
-                   
+                        <div key={id} onClick={()=>addChatHandler(uid,umail)} >
+                            <UserItem uname={uname} umail={umail} dp={dp} status={status} />
+                        </div>
                         )
                 }     
                         

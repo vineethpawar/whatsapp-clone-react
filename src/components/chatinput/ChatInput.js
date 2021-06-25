@@ -1,4 +1,4 @@
-import React,{useEffect,useState,useContext} from 'react'
+import React,{useEffect,useState} from 'react'
 import './ChatInput.css'
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
@@ -9,17 +9,87 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import SendIcon from '@material-ui/icons/Send';
 import Axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
-
+import uuid from 'react-uuid'
+import {db} from '../../firebase'
+import firebase from 'firebase'
 
 import 'emoji-picker-element';
 
 
 
+const umailExtractor = (umail)=>{
+    return umail.slice(0,umail.lastIndexOf('@'))
+}
 
 
+function ChatInput({rightScreenChat,user,updateScrollTimeout}) {
 
-function ChatInput() {
+const checkCombo = (event) =>{
+    if (event.ctrlKey && event.keyCode === 13)  sendText();
+}
 
+    const sendText = ()=>{
+         if(!listening && (document.getElementById('chattextbar').value.length > 0 || imgInput.length>0)) { 
+            if(rightScreenChat[1]==='group') {
+            db.collection('chats').doc(rightScreenChat[0]).set({
+            messages:firebase.firestore.FieldValue.arrayUnion(
+                {   mid:uuid(),
+                    uid:user.uid,
+                    from:umailExtractor(user.umail),
+                    img:imgInput,
+                    content:document.getElementById('chattextbar').value,
+                    timePosted:`${new Date()}`,
+                    type:'common'
+                }
+            )
+            },{merge:true})
+         } 
+
+         else {
+            db.collection('chats').doc(rightScreenChat[2]).set({
+                messages:firebase.firestore.FieldValue.arrayUnion(
+                    {   mid:uuid(),
+                        uid:user.uid,
+                        from:umailExtractor(user.umail),
+                        img:imgInput,
+                        content:document.getElementById('chattextbar').value,
+                        timePosted:`${new Date()}`,
+                        type:'common'
+                    }
+                )
+                },{merge:true})
+         }
+
+
+            document.getElementById('chattextbar').value='';
+            setInputHeight('25px')
+            setTextInput('');
+            resetImage();
+            updateScrollTimeout();
+        } else { if(listening) {
+            toast.error('Turn off mic before sending', {
+                position: "bottom-left",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                });
+            } else {
+                toast.error('Message is empty !! ', {
+                    position: "bottom-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    });
+            }
+        }
+
+    }
  
 
     const uploadImage=(files)=>{
@@ -28,7 +98,7 @@ function ChatInput() {
     
             if(files[0].size<1100000){
     
-            toast.dark('Uploading image', {
+            toast.dark('Attaching image', {
                 position: "bottom-left",
                 autoClose: 4300,
                 hideProgressBar: false,
@@ -80,7 +150,8 @@ function ChatInput() {
 
     const resetImage = () =>{
         setImageInput('');
-        document.getElementById('img_upload_input').value=null;
+        document.getElementById('img_upload_input').value='';
+       
       
     }
 
@@ -139,7 +210,7 @@ function ChatInput() {
     useEffect(()=>{
         const chattextbar = document.getElementById('chattextbar');
         const picker = document.getElementById('emojiid');
-        picker.addEventListener('emoji-click', event => setTextInput(chattextbar.value + event.detail.unicode));
+        picker.addEventListener('emoji-click', event => {chattextbar.value += event.detail.unicode; setTextInput(chattextbar.value)})
          
     },[])
 
@@ -178,9 +249,9 @@ function ChatInput() {
             <div className="input__bar theme__green__bg">
                 <form style={{width:'100%'}}>
                     {listening ? 
-                         <textarea  spellCheck='false' placeholder="Type a message" style={{height:inputHeight}} value={listening ? textInput + transcript : textInput} onChange={ (e)=>{setTextInput(e.target.value); autogrow(e)}}  className="input__bar__textarea  theme__font" disabled></textarea>
+                         <textarea  spellCheck='false' placeholder="Type a message" style={{height:inputHeight}} onKeyDown={(e)=>checkCombo(e)} value={listening ? textInput + transcript : textInput} onChange={ (e)=>{setTextInput(e.target.value); autogrow(e)}}  className="input__bar__textarea  theme__font" disabled></textarea>
                          :
-                         <textarea id="chattextbar"  spellCheck='false' placeholder="Type a message" style={{height:inputHeight}} value={listening ? textInput + transcript : textInput} onChange={ (e)=>{setTextInput(e.target.value); autogrow(e)}}  className="input__bar__textarea  theme__font"  ></textarea>
+                         <textarea id="chattextbar"  spellCheck='false' placeholder="Type a message" style={{height:inputHeight}} onKeyDown={(e)=>checkCombo(e)} value={listening ? textInput + transcript : textInput} onChange={ (e)=>{setTextInput(e.target.value); autogrow(e)}}  className="input__bar__textarea  theme__font"  ></textarea>
 
                     }
                 </form>
@@ -190,7 +261,7 @@ function ChatInput() {
                 <MicNoneOutlinedIcon className="emote__icon"/>
             </div>
            
-            <div className="send_icon" title="send">
+            <div className="send_icon" title="send" onClick={()=>sendText()}>
                 <SendIcon className="emote__icon" style={{padding:'3px'}}/>
             </div>
 

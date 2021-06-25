@@ -1,29 +1,40 @@
-import React,{useState,useEffect,createContext} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import './RightScreen.css'
 import ChatHeader from './../../components/chatheader/ChatHeader';
 import ChatInput from '../../components/chatinput/ChatInput';
 import ChatContent from '../../components/chatcontent/ChatContent';
-
+import { AuthContext } from '../../App';
+import firebase from 'firebase'
+import {db} from '../../firebase'
 
 const updateScroll = () =>{
     var element = document.getElementById("chat__messages__content");
-    element.scrollTop = element.scrollHeight;
+    if(element)   element.scrollTop = element.scrollHeight;
+    
 }
 
+const updateScrollTimeout = () =>{
+    setTimeout(() => { updateScroll() }, 10);
+}
 
-function RightScreen() {
+function RightScreen({rightScreenChat}) {
+    const [user0,setUser0]=useState({})
+    const updateAuth = useContext(AuthContext);
 
-    const calcChatHeight = () =>{
-        setChatInputHeight(document.getElementById('chat__input__wrapper').offsetHeight) 
-    }
-
-
-    const [chatInputHeight,setChatInputHeight]=useState(0);
     useEffect(()=>{
-        if(document.getElementById('chat__input__wrapper'))
-            calcChatHeight()
-
-            setTimeout(updateScroll,10);   
+        
+      
+        firebase.auth().onAuthStateChanged((user0)=>{
+            if(user0){
+               db.collection('users').doc(user0.uid).get()
+               .then((userDet)=>{
+                   setUser0(userDet.data());
+                    return userDet.data();
+               })
+            } else{
+             updateAuth(false);
+            }
+        })   
     },[])
    
 
@@ -31,7 +42,7 @@ function RightScreen() {
         <div className="right__screen ">
 
 
-            { false ?
+            {!rightScreenChat.length>0 ?
 
                     <div className="nc__selected theme__dark">
                          <div className="overlay_cmp"></div>
@@ -43,21 +54,22 @@ function RightScreen() {
 
 
                   : 
+                  
                    <>  
                     <div className="overlay"></div>
 
                     <div className="chat__header__wrapper">
-                        <ChatHeader/>
+                        <ChatHeader rightScreenChat={rightScreenChat}/>
                     </div>
 
  
-                    <div id='chat__messages__content' className="chat__messages__content" style={{marginBottom:`${chatInputHeight}px`}} >
-                        <ChatContent/>
+                    <div id='chat__messages__content' className="chat__messages__content" style={{marginBottom:`62px`}} >
+                        <ChatContent rightScreenChat={rightScreenChat} updateScrollTimeout={updateScrollTimeout} user={user0}/>
                     </div>
             
               
                     <div id="chat__input__wrapper" className="chat__input__wrapper">
-                        <ChatInput/>
+                        <ChatInput rightScreenChat={rightScreenChat} user={user0} updateScrollTimeout={updateScrollTimeout}/>
                     </div>
                     </>
             } 
