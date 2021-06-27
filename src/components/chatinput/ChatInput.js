@@ -100,7 +100,7 @@ const checkCombo = (event) =>{
     
         if((files[0])&&(files[0].type).includes('image')){
     
-            if(files[0].size<1100000){
+            if(files[0].size<4100000){
     
             toast.dark('Attaching image', {
                 position: "bottom-left",
@@ -122,7 +122,7 @@ const checkCombo = (event) =>{
             }) 
             
         } else {
-            toast.error('Keep image size below 1Mb', {
+            toast.error('Keep image size below 4Mb', {
                 position: "bottom-left",
                 autoClose: 2000,
                 hideProgressBar: false,

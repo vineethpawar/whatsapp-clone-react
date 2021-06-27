@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import './LeftScreen.css'
 import UserProfile from '../../components/userprofile/UserProfile'
 import ChatList from '../../components/chatlist/ChatList'
@@ -12,12 +12,13 @@ function LeftScreen() {
     const [selected,setSelected]=useState('0')
     const leftScreenChange=(component)=>setLeftScreen(component);
     const selectedChange=(component)=>setSelected(component);
-    
+   
+  
     
     return (
+
         <div className="left__screen">
       
-
        { leftScreen==='userprofile'  &&     <UserProfile change={leftScreenChange}/> }
        { leftScreen==='chatlist'     &&    <ChatList change={leftScreenChange}  />  }
        { leftScreen==='archieved'  &&   <ArchievedList change={leftScreenChange}/>}

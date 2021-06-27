@@ -85,3 +85,13 @@
 .app__right{
     flex:0.7;
 }
+
+.app__full{
+    flex:1;
+}
+
+.app__none{
+    flex:0;
+    display: none;
+}
+

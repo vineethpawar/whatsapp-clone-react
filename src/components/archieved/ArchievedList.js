@@ -90,7 +90,7 @@ function ArchievedList({change}) {
 
              
           
-        
+            
           
               <div className="chatlist__header theme__green__bg">
                   <h2 className="theme__h2 archieved__header">

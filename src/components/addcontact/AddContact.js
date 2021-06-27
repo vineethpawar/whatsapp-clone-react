@@ -57,9 +57,9 @@ const addChatHandler =(uid,umail) => {
                 timestamp:firebase.firestore.FieldValue.serverTimestamp(),
                 type:'personal'
 
-             })
+             }).then(()=>change('chatlist'))
 
-             change('chatlist')
+             
             
             
         } 
@@ -102,7 +102,7 @@ const addChatHandler =(uid,umail) => {
                }).then((usr)=>{
     
     
-                db.collection('users').where('uid','!=',usr.uid).limit(10).onSnapshot((snapshot)=>{
+                db.collection('users').where('uid','!=',user5.uid).limit(10).onSnapshot((snapshot)=>{
     
                     setUsers(snapshot.docs.map(doc=>(
                         {

@@ -18,7 +18,7 @@ function ChatContent({rightScreenChat,user,updateScrollTimeout}) {
 
     const [chatMessages,setChatMessages]=useState([]);
     useEffect(()=>{
-       
+        
         if(rightScreenChat[1]==='group'){
             db.collection('chats').doc(rightScreenChat[0]).onSnapshot((snapshot)=>{
                 setChatMessages(snapshot.data().messages)

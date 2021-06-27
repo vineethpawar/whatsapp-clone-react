@@ -1,11 +1,13 @@
 import React,{useEffect,useState,useContext} from 'react'
 import './Auth.css'
-import {db,auth} from '../../firebase'
+import {db} from '../../firebase'
 import firebase from 'firebase'
 import {AuthContext} from '../../App'
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Auth({isLoading}) {
+function Auth({isLoading,updateLoader}) {
 
    const updateAuth = useContext(AuthContext);
 
@@ -27,27 +29,45 @@ function Auth({isLoading}) {
             db.collection('users').doc(user.uid).get()
             .then((res)=>{
                 if(res.exists){
-                    console.log('Old User');
                     updateAuth(true);
                 }
                 else{
-                    console.log('New User');
+                    updateLoader(true);
+
+                    toast.dark('Setting up account', {
+                        position: "top-left",
+                        autoClose: 3300,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: false,
+                        progress: undefined,
+                        });  
+                        
                      db.collection('users').doc(user.uid).set({
+                     
                         uid:user.uid, 
                         uname:user.displayName,
                         umail:user.email,
                         dp:user.photoURL,
                         status:"Hey there! I am using Whatsapp",
+                        friends:[],
                         archieved:[0],
                         blocked:[0],
          
-                     },{merge:true});
-                     updateAuth(true);
+                     },{merge:true})
+                     .then(()=>{
+                        updateAuth(true);
+                     });
+                     
+
+                     
+
+                  
+     
                 }
             })
-            
-            
- 
+
         })
         .catch((error) => {
             console.log(error);
@@ -55,7 +75,9 @@ function Auth({isLoading}) {
     }
 
     useEffect(()=>{
-        db.collection('users').onSnapshot((snapshot)=>{
+        
+        db.collection('users').get()
+        .then((snapshot)=>{
 
             setUserCount(snapshot.docs.map(doc=>(
                 {
@@ -69,16 +91,29 @@ function Auth({isLoading}) {
        })
     },[])
 
-
     return (
         <div className="auth theme__bg">
+              <ToastContainer
+                            position="top-left"
+                            autoClose={3300}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss={false}
+                            draggable={false}
+                            pauseOnHover={false}
+                            />
+
             <div className="wave"></div>
                 <img className="w__logo" src="https://i.pinimg.com/originals/91/9d/f0/919df067a8fbd22ce7b6f401b7688b35.png" alt="" />
-               {/* <span className="center text_white">
-               Made by:
-              <a href="#" className="name">Vineeth Pawar</a>   
-              </span>  */}
-              <h1 className="theme__h3 font__large"><PermIdentityIcon className="usrcount__icon" /> {!userCount.length ? '--' : userCount.length } </h1>
+                    {/* <span className="center text_white">
+                        Made by:
+                         <a href="#" className="name">Vineeth Pawar</a>   
+                         </span>  
+                     */}
+            <h1 className="theme__h3 font__large"><PermIdentityIcon className="usrcount__icon" /> {!userCount.length ? '--' : userCount.length } </h1>
+
             {isLoading ?  
               <img src="https://thumbs.gfycat.com/WhirlwindQuarterlyAustraliansilkyterrier-size_restricted.gif" className="preloader" alt="" />
                 :

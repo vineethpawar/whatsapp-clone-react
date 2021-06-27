@@ -71,7 +71,7 @@ const uploadImage=(files)=>{
     
     if((files[0])&&(files[0].type).includes('image')){
 
-        if(files[0].size<1100000){
+        if(files[0].size<4100000){
 
         toast.dark('Uploading image', {
             position: "bottom-left",
@@ -96,7 +96,7 @@ const uploadImage=(files)=>{
         }) 
         
     } else {
-        toast.error('Keep image size below 1Mb', {
+        toast.error('Keep image size below 4Mb', {
             position: "bottom-left",
             autoClose: 2000,
             hideProgressBar: false,
@@ -159,7 +159,7 @@ const uploadImage=(files)=>{
                
 
                 <div className="inp__name">
-                    <input id="name" spellCheck="false" className=" theme__font " type="text" value={username} onChange={(e)=>setUsername(e.target.value.trim)}/>
+                    <input id="name" spellCheck="false" className=" theme__font " type="text" value={username} onChange={(e)=>setUsername(e.target.value)}/>
                     
                     {username.trim()!==user2.uname && username.length >=3 &&
                        
@@ -172,7 +172,7 @@ const uploadImage=(files)=>{
                                     setUser2({...user2,uname:username});
                                     db.collection('users').doc(user2.uid).set({
                                      ...user2,
-                                     uname:username
+                                     uname:username.trim()
                                   },{merge:true});  
 
                                   toast.dark('Username changed successfully', {
@@ -197,7 +197,7 @@ const uploadImage=(files)=>{
                 <h3 className="about__prof theme__h3 edit__head">About  <label htmlFor="about"> <EditIcon className="edit__pen"/></label></h3>
                 <div className="inp__status">
 
-                    <textarea id="about" maxLength="50" spellCheck="false" className="status__inp  theme__font " type="text" value={status}  onChange={(e)=>setStatus(e.target.value.trim)}/>
+                    <textarea id="about" maxLength="50" spellCheck="false" className="status__inp  theme__font " type="text" value={status}  onChange={(e)=>setStatus(e.target.value)}/>
                     
                     {status.trim()!==user2.status  &&
                         <div  className="inp__tick " onClick={()=>
@@ -207,7 +207,7 @@ const uploadImage=(files)=>{
                                 setUser2({...user2,status:status});
                              db.collection('users').doc(user2.uid).set({
                                 ...user2,
-                                status:status
+                                status:status.trim()
                              },{merge:true});  
 
                              

@@ -1,6 +1,8 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import './ChatHeader.css'
 import {db} from '../../firebase'
+import {UpdateMobileView} from '../../App'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
@@ -8,8 +10,14 @@ const umailExtractor = (umail)=>{
 
 
 function ChatHeader({rightScreenChat}) {
-   
+    const [screenWidth,setScreenWidth]=useState(0);
+    const updateMobileView = useContext(UpdateMobileView);
     useEffect(()=>{
+        setScreenWidth(document.body.clientWidth);
+        window.addEventListener("resize", (event)=> {
+          setScreenWidth(document.body.clientWidth);
+        })
+
         if(rightScreenChat[1]==='group'){
         db.collection('chats').doc(rightScreenChat[0]).get()
         .then((snapshot)=>{
@@ -49,8 +57,14 @@ function ChatHeader({rightScreenChat}) {
     return (
 
       <div className="theme__green__bg chat__header theme__font">
+
           {rightScreenChat[1]==='personal' ?
           <div className="chat__user__details__wrapper">
+              { screenWidth <600 &&
+                        <span onClick={()=>{updateMobileView(true);}}>
+                        <ArrowBackIcon className="arch__back__icon" />
+                        </span>
+              }
              <img src={chatHeader.dp} alt="" className="ch__user__img" />
              <div className="chat__user__details">
                  <h4 className="theme__h4">{chatHeader.name}<span className="theme__uname">  {(chatHeader.umail) ? `@${umailExtractor(chatHeader.umail)}`  : ''}</span> </h4>
@@ -59,6 +73,11 @@ function ChatHeader({rightScreenChat}) {
           </div>
           :
           <div className="chat__user__details__wrapper">
+               { screenWidth <600 &&
+                        <span onClick={()=>{updateMobileView(true);}}>
+                        <ArrowBackIcon className="arch__back__icon" />
+                        </span>
+                 }
              <img src={chatHeader.dp} alt="" className="ch__user__img" />
              <div className="chat__user__details">
                  <h4 className="theme__h4">{chatHeader.chatName} <span className="theme__uname"></span> </h4>

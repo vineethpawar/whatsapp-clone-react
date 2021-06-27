@@ -7,7 +7,8 @@ import GroupIcon from '@material-ui/icons/Group';
 import { db } from '../../firebase';
 import {format,isToday,isThisWeek,isYesterday} from 'date-fns'
 import firebase from 'firebase'
-import {UpdateRightScreen} from '../../App'
+import {UpdateRightScreen,UpdateMobileView} from '../../App'
+
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -18,7 +19,7 @@ const umailExtractor = (umail)=>{
 
 function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,type,members,description,memebersMail,lastTexted,archieved=false,blocked=false}) {
     const updateRightScreenChat = useContext(UpdateRightScreen);
-  
+    const updateMobileView = useContext(UpdateMobileView)
     const getLastTextTime = (timestamp)=>{
         if(isToday(new Date(timestamp))) return format(new Date(timestamp), ' hh:mm aaa')
         else if(isYesterday(new Date(timestamp))) return 'yesterday'
@@ -53,17 +54,30 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
 
 
     const blockItemHandler = () =>{
-        setDisplay(false);
+       
 
         if(blocked){
+              setDisplay(false);
                 db.collection('users').doc(uid).update({
                     blocked:firebase.firestore.FieldValue.arrayRemove(chatid)
                 })
         } else {
-            db.collection('users').doc(uid).update({
+            if(chatid!==selectedChat){
+                setDisplay(false);
+                db.collection('users').doc(uid).update({
                 blocked:firebase.firestore.FieldValue.arrayUnion(chatid)
             })
-            
+           } else {
+            toast.error('You cannot block an opened chat', {
+                position: "bottom-left",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                });
+           }
         }
     }
 
@@ -113,12 +127,14 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
         :()=>{
         changeSelectedChat(chatid);
         if(type==='personal'){ 
-            if(uid===members[0])
-                 updateRightScreenChat(members[1],type,chatid); 
-            else 
-                updateRightScreenChat(members[0],type,chatid);  
+            if(uid===members[0]){
+                 updateRightScreenChat(members[1],type,chatid);  updateMobileView(false);
+            }
+            else {
+                updateRightScreenChat(members[0],type,chatid); updateMobileView(false) 
+                }
             }  
-        else updateRightScreenChat(chatid,type,0);
+        else { updateRightScreenChat(chatid,type,0); updateMobileView(false) }
         }
     
     
@@ -133,7 +149,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                         <h4 style={{display:'inline-flex'}} className="theme__h5 theme__subfont chat__subtext">
                             {user1.umail ? `@${umailExtractor(user1.umail)}` : 'Loading ...'}
                         </h4> 
-                        <h4 className="theme__h5 theme__subfont chat__subtext">
+                         <h4 className="theme__h5 theme__subfont chat__subtext">
                             {user1.status}
                         </h4>
                     </div>

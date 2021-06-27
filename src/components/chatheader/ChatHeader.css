@@ -27,3 +27,19 @@
     font-size: 15px;
     font-weight: 400;
 }
+
+.arch__back__icon{
+    position: relative;
+    margin-top: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    height: 35px !important;
+    width: 35px !important;
+    padding: 5px;
+    border-radius: 50%;
+ 
+}
+
+.arch__back__icon:hover{
+    background-color: rgba(107, 102, 102, 0.466);
+}

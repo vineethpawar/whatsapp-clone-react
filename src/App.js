@@ -4,18 +4,20 @@ import './App.css';
 import LeftScreen from './screens/leftscreen/LeftScreen';
 import RightScreen from './screens/rightscreen/RightScreen';
 import firebase from 'firebase'
-// import {db,auth} from './firebase'
+import {db} from './firebase'
 import Auth from './screens/authentication/Auth';
 // import {format,isToday,isThisWeek,isYesterday} from 'date-fns'
 
 export const AuthContext = createContext();
 export const UpdateRightScreen = createContext();
 export const ResetRightScreen = createContext();
+export const UpdateMobileView= createContext();
+
+
 
 
 function App() {
-
-
+  
   // const  getTimeOnly = (timestamp) =>{
   //     return format(new Date(timestamp), ' hh:mm aaa')
   // }
@@ -36,20 +38,25 @@ function App() {
   //     else  return format(new Date(timestamp), ' dd/MM/yyyy')
   // }
 
-  
+ 
   const [isLoggedIn,setIsLoggedIn]=useState(false);
   const [isLoading,setIsLoading]=useState(true);
+  const [screenWidth,setScreenWidth]=useState(0);
+  const [mobileViewLeft,setMobileViewLeft]=useState(true);
   const [rightScreenChat,setRightScreenChat]=useState([])
   const updateLoader = (option) =>{
     setIsLoading(option)
   }
 
 
-
-
+ 
   const updateRightScreenChat = (chatid,type,id) =>{
     setRightScreenChat([chatid,type,id])
   }
+ 
+  const updateMobileView = (status) =>{
+    setMobileViewLeft(status)
+  }   
 
   const resetRightScreenChat = () =>{
     setRightScreenChat([])
@@ -61,14 +68,25 @@ function App() {
   }
   
   useEffect(()=>{
-
+    setScreenWidth(document.body.clientWidth);
+    window.addEventListener("resize", (event)=> {
+      setScreenWidth(document.body.clientWidth);
+    })
 
     firebase.auth().onAuthStateChanged((user)=>{
       if(user){
-          updateAuth(true);
+        db.collection('users').doc(user.uid).get()
+        .then((res)=>{
+              
+            if(res.exists){
+                updateAuth(true);
+                updateLoader(false);
+            }
+          })
+        
  
       } else{
-        updateAuth(false);
+       
         updateLoader(false);
   
       }
@@ -79,37 +97,54 @@ function App() {
   
 
   return (
-    
+    <UpdateMobileView.Provider value={updateMobileView} >
     <AuthContext.Provider value={updateAuth} >
       <UpdateRightScreen.Provider value={updateRightScreenChat} >
         <ResetRightScreen.Provider value={resetRightScreenChat} >
-          <div className="app" >
-
+          <div className="app">
+             
             {isLoggedIn ?
-
+         
+             
               <div className="screen">
-                  <div className="app__left">
+               { mobileViewLeft ?
+                <> 
+                  <div className={ screenWidth <600 ? "app__left app__full" :"app__left" }>
                       <LeftScreen />
                   </div>
 
-                  <div className="app__right"  >
+                  <div className={screenWidth <600 ? "app__right app__none" :"app__right" }>
                       <RightScreen rightScreenChat={rightScreenChat}/>
                   </div>
+                  </>
+                  :
+                  <> 
+                  <div className={ screenWidth <600 ? "app__left app__none":"app__left"}>
+                      <LeftScreen />
+                  </div>
+
+                  <div className={ screenWidth <600 ? "app__right app__full":"app__right"}  >
+                      <RightScreen rightScreenChat={rightScreenChat}/>
+                  </div>
+                  </>
+                }
+
+                 
               </div>
-            
+             
                 :
 
-                <Auth isLoading = {isLoading} />
+                <Auth isLoading = {isLoading} updateLoader={updateLoader} />
 
             }
           </div>
      </ResetRightScreen.Provider>
   </UpdateRightScreen.Provider>
 </AuthContext.Provider>
+</UpdateMobileView.Provider>
 
   
   );
 }
 
 export default App;
-export const UserContext = createContext()
