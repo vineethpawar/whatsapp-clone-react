@@ -8,7 +8,7 @@ import {db} from "../../firebase"
 import { AuthContext } from '../../App';
 import firebase from 'firebase'
 import {ResetRightScreen} from '../../App'
-
+import { ClickAwayListener } from '@material-ui/core';
 
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
@@ -114,7 +114,9 @@ function ChatList({change}) {
                
                 <div className="chat__icons">
                    
-                    <span title="New chat" className="menu__span" onClick={()=>{newChatOptions?setNewChatOptions(false):setNewChatOptions(true)}}>
+
+            <ClickAwayListener onClickAway={()=>setNewChatOptions(false)}>
+                    <span title="New chat" className="menu__span" onClick={()=>setNewChatOptions(!newChatOptions)}>
                         <AddIcon className="chat__icon"/>
                         {newChatOptions && 
                         <div className="menu__options theme__green__bg">
@@ -123,8 +125,11 @@ function ChatList({change}) {
                         </div>
                         }
                     </span>
+             </ClickAwayListener>           
 
-                    <span title="Menu" className="menu__span" onClick={()=>{menuOptions?setMenuOptions(false):setMenuOptions(true)}}>
+
+             <ClickAwayListener onClickAway={()=>setMenuOptions(false)}>          
+                    <span title="Menu" className="menu__span" onClick={()=>setMenuOptions(!menuOptions)}>
                         <MoreHorizIcon className="chat__icon"/>
 
                         {menuOptions && 
@@ -136,6 +141,10 @@ function ChatList({change}) {
                         </div>
                         }
                     </span>
+            </ClickAwayListener>           
+
+
+
                 </div>
          
             </div>

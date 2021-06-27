@@ -8,7 +8,7 @@ import { db } from '../../firebase';
 import {format,isToday,isThisWeek,isYesterday} from 'date-fns'
 import firebase from 'firebase'
 import {UpdateRightScreen,UpdateMobileView} from '../../App'
-
+import { ClickAwayListener } from '@material-ui/core';
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -109,6 +109,8 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
         }
     },[]) 
 
+
+
     return (
     <div style={ display ? {display:'block',position:'relative'} : {display:'none',position:'relative'}}>
         <ToastContainer/>
@@ -170,9 +172,15 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                         </span>
                     }
 
-                    <span  onClick={()=>{options ? setOptions(false) : setOptions(true)}}>
-                        <ExpandMoreIcon className="expand__icon"/>
-                    </span>
+
+
+
+                    <ClickAwayListener onClickAway={()=>setOptions(false)}>
+                            <span  onClick={()=>setOptions(!options)}>
+                                <ExpandMoreIcon className="expand__icon"/>
+                            </span>
+                    </ClickAwayListener>
+
 
                     { options &&
                         <div style={{position:'absolute'}} className="options theme__green__bg" onClick={()=>setOptions(!options)}>
@@ -223,9 +231,11 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                </span>
            }
 
-           <span  onClick={()=>{options ? setOptions(false) : setOptions(true)}}>
-               <ExpandMoreIcon className="expand__icon"/>
-           </span>
+                    <ClickAwayListener onClickAway={()=>setOptions(false)}>
+                            <span  onClick={()=>setOptions(!options)}>
+                                <ExpandMoreIcon className="expand__icon"/>
+                            </span>
+                    </ClickAwayListener>
 
            { options &&
                <div  style={{zIndex:'13'}} className="options theme__green__bg" onClick={()=>setOptions(!options)}> 
