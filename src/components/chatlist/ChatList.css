@@ -20,6 +20,10 @@
     
     }
 
+    .chat__container{
+    border-top:1px solid rgba(146, 141, 141, 0.445);
+    }
+
     .menu__options{
         padding-top: 5px;
         padding-bottom: 5px;

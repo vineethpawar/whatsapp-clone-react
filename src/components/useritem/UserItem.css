@@ -3,8 +3,7 @@
     display: flex;  
     align-items: center;
     padding: 10px;
-    border-top:1px solid rgba(128, 128, 128, 0.5);
-    border-bottom:1px solid rgba(128, 128, 128, 0.5);
+    border-bottom:1px solid rgba(146, 141, 141, 0.445);
     
     height:100%;
  }

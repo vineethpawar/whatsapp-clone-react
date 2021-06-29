@@ -149,15 +149,6 @@ function ChatList({change}) {
          
             </div>
 
-           
-        
-          
-     
-        
-
-
-
-
             <div className="search__container theme__search theme__green__bg">
                    <SearchIcon className="search__icon" /> 
                    <input spellCheck="false" className="search__inp theme__font" type="text" value={searchName} onChange={(e)=>{setSearchName(e.target.value);filterFun(chats,e.target.value)}} placeholder="Search a chat by group name or user unique id" />
