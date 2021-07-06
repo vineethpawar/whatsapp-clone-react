@@ -8,7 +8,7 @@ import firebase from 'firebase'
 import {db} from '../../firebase'
 import ChatDetails from './../../components/chatdetails/ChatDetails';
 import UpdateGroupChat from './../../components/updategroupchat/UpdateGroupChat';
-
+import uuid from 'react-uuid';
 
 const updateScroll = () =>{
     var element = document.getElementById("chat__messages__content");
@@ -27,9 +27,9 @@ const updateScrollTimeout = () =>{
 
 function RightScreen({rightScreenChat}) {
     const [groupUpdate,setGroupUpdate]=useState(false)
-    
+    const  [count,setCount]=useState('0')
     const updateGroup = (status) => setGroupUpdate(status);
-    const[chatUpdate,setChatUpdate]=useState(0)
+   
 
     const updateChatDetailsVisibility = (status)=>{
         setIsChatDetailsActive(status)
@@ -44,16 +44,16 @@ function RightScreen({rightScreenChat}) {
     
 
     useEffect(()=>{
-         
+        if(rightScreenChat.length>0)  db.collection('chats').doc(rightScreenChat[3].id).onSnapshot(()=>setCount(uuid()));
         updateChatDetailsVisibility(false)
-      
+     
         firebase.auth().onAuthStateChanged((user0)=>{
             if(user0){
                db.collection('users').doc(user0.uid).get()
                .then((userDet)=>{
                    setUser0(userDet.data());
-                   db.collection('chats').where('members','array-contains',userDet.data().uid).onSnapshot(()=>setChatUpdate(chatUpdate+1))
-                    return userDet.data();
+                  
+                    
                })
             } else{
              updateAuth(false);
@@ -88,11 +88,11 @@ function RightScreen({rightScreenChat}) {
                         <ChatHeader rightScreenChat={rightScreenChat} updateChatDetailsVisibility={updateChatDetailsVisibility} />
                     </div>
 
- 
+                   {rightScreenChat.length &&
                     <div id='chat__messages__content' className="chat__messages__content" style={{marginBottom:`62px`}} >
-                        <ChatContent count={chatUpdate} rightScreenChat={rightScreenChat} updateScrollTimeout={updateScrollTimeout} user={user0}/>
+                        <ChatContent count={count} rightScreenChat={rightScreenChat} updateScrollTimeout={updateScrollTimeout} user={user0}/>
                     </div>
-            
+                    }
               
                     <div id="chat__input__wrapper" className="chat__input__wrapper">
                         <ChatInput rightScreenChat={rightScreenChat} user={user0} updateScrollTimeout={updateScrollTimeout}/>

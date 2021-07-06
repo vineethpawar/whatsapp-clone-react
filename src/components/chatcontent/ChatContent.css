@@ -67,6 +67,7 @@
 }
 
 .cm__info{
+    color:white;
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -74,4 +75,5 @@
     width:fit-content;
     margin-top: 20px;
     margin-bottom: 20px;
+    background-color: rgb(48, 107, 184);
 }

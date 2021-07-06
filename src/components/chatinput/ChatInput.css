@@ -28,6 +28,7 @@
 
 
 .send_icon{
+    color:white;
     display: flex;
     align-items: center;
     border:3px solid transparent;

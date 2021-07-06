@@ -3,12 +3,11 @@ import './ChatContent.css'
 import Popup from 'reactjs-popup';
 import {db} from '../../firebase'
 import {format,isToday,isThisWeek,isYesterday} from 'date-fns'
-
 const  getTimeOnly = (timestamp) =>{
       return format(new Date(timestamp), ' hh:mm aaa')
   }
 
-  const unsub = db.collection('chats').onSnapshot(()=>{});
+
 
  const  getDateOnly = (timestamp) =>{
     if(isToday(new Date(timestamp))) return 'Today'
@@ -18,21 +17,14 @@ const  getTimeOnly = (timestamp) =>{
   }
 
 function ChatContent({count,rightScreenChat,user,updateScrollTimeout}) {
-   
+ 
     const update=()=>{
-        if(rightScreenChat[1]==='group')
-            {
-                db.collection('chats').doc(rightScreenChat[0]).get()
+       
+                db.collection('chats').doc(rightScreenChat[3].id).get()
                 .then((snapshot)=>{
                     setChatMessages(snapshot.data().messages)
                 }).then(()=>updateScrollTimeout()) 
-           }
-           else{
-                db.collection('chats').doc(rightScreenChat[2]).get()
-                .then((snapshot)=>{
-                    setChatMessages(snapshot.data().messages)
-                }).then(()=>updateScrollTimeout()) 
-           }
+        
 
    }
 
@@ -41,8 +33,8 @@ function ChatContent({count,rightScreenChat,user,updateScrollTimeout}) {
   
 
     useEffect(()=>{
-       
-       console.log('count is ',count)
+  
+     
        update()
 
         },[rightScreenChat,count])
@@ -52,7 +44,7 @@ function ChatContent({count,rightScreenChat,user,updateScrollTimeout}) {
     return (
 
         <div id='chat_content' className="chat__content theme__font">
-
+           
            { chatMessages.map((ele)=> 
                
                ele.type==='info' ? 

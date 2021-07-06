@@ -175,7 +175,7 @@ const checkCombo = (event) =>{
         } = useSpeechRecognition();
       
         if (!browserSupportsSpeechRecognition) {
-          console.log('error')
+          console.log('error inspeech recognition')
         }
 
 

@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SearchIcon from '@material-ui/icons/Search';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import ChatItem from '../chatitem/ChatItem';
 import {db} from "../../firebase"
 import { AuthContext } from '../../App';
@@ -15,6 +16,14 @@ import { ClickAwayListener } from '@material-ui/core';
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
 }
+
+
+
+
+
+
+
+
 
 function ChatList({change}) {
     const updateTheme = useContext(UpdateTheme) 
@@ -122,7 +131,10 @@ function ChatList({change}) {
                 <div className="chat__icons">
                    
 
- 
+           
+              
+
+
              <span title="Theme" className="menu__span" onClick={updateTheme}>
                 <Brightness4Icon className="chat__icon"/>
              </span>

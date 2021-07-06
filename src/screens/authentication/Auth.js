@@ -54,6 +54,7 @@ function Auth({isLoading,updateLoader}) {
                         friends:[],
                         archieved:[0],
                         blocked:[0],
+                        theme:'dark',
          
                      },{merge:true})
                      .then(()=>{

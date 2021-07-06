@@ -122,7 +122,7 @@ const createGroupHandler =()=>{
         members:[...addedContactsUid,user2.uid],
         membersMail:[...addedContactsMail,user2.umail],
         messages:[{
-            content:`${umailExtractor(user2.umail)} created this group with ${addedContactsUid.length} other`,
+            content:`${umailExtractor(user2.umail)} created this group with ${addedContactsUid.length} other(s)`,
             type:'info',
             timePosted:`${new Date()}`,
             mid:uuid()

@@ -53,7 +53,12 @@ const addChatHandler =(uid,umail) => {
                 lastTexted:`${new Date()}`,
                 members: [user5.uid,uid],
                 membersMail: [user5.umail,umail],
-                messages:[],
+                messages:[{
+                    content:`${umailExtractor(user5.umail)} connected with  ${umailExtractor(umail)}`,
+                    type:'info',
+                    timePosted:`${new Date()}`,
+                    mid:uuid(),
+                }],
                 timestamp:firebase.firestore.FieldValue.serverTimestamp(),
                 type:'personal'
 

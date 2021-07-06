@@ -21,6 +21,7 @@ export const UpdateTheme = createContext();
 function App() {
 
 
+
      let cssPropertiesLight = {};
      cssPropertiesLight['--darkInputBackground']='rgb(238, 231, 231)'
       cssPropertiesLight['--darkBackground'] = 'rgb(238, 231, 231)'
@@ -39,40 +40,32 @@ function App() {
        cssPropertiesDark['--darkChatBG'] = 'rgba(27, 26, 26, 0.89)'
 
   
-  // const  getTimeOnly = (timestamp) =>{
-  //     return format(new Date(timestamp), ' hh:mm aaa')
-  // }
 
-
-  // const  getDateOnly = (timestamp) =>{
-  //   if(isToday(new Date(timestamp))) return 'Today'
-  //   else if(isYesterday(new Date(timestamp))) return 'Yesterday'
-  //   else if(isThisWeek(new Date(timestamp))) return format(new Date(timestamp), 'eeee')
-  //   else  return format(new Date(timestamp), ' dd/MM/yyyy')
-  // }
-
-  
-  // const  getLastTextTime = (timestamp)=>{
-  //     if(isToday(new Date(timestamp))) return format(new Date(timestamp), ' hh:mm aaa')
-  //     else if(isYesterday(new Date(timestamp))) return 'yesterday'
-  //     else if(isThisWeek(new Date(timestamp))) return format(new Date(timestamp), 'eeee')
-  //     else  return format(new Date(timestamp), ' dd/MM/yyyy')
-  // }
-
+  const [userUid,setUserUid]=useState('')
   const [theme,setTheme]=useState('dark');
   const [isLoggedIn,setIsLoggedIn]=useState(false);
   const [isLoading,setIsLoading]=useState(true);
   const [screenWidth,setScreenWidth]=useState(0);
   const [mobileViewLeft,setMobileViewLeft]=useState(true);
   const [rightScreenChat,setRightScreenChat]=useState([])
+
   const updateLoader = (option) =>{
     setIsLoading(option)
   }
 
   const updateTheme = () =>{
-    if(theme==='light') setTheme('dark')
-    else setTheme('light')
-    
+    if(theme==='light') {
+      setTheme('dark');
+       db.collection('users').doc(userUid).set({
+         theme:'dark',
+       },{merge:true}) 
+    }
+    else {
+      setTheme('light');
+      db.collection('users').doc(userUid).set({
+        theme:'light',
+      },{merge:true}) 
+    }
   }
  
   const updateRightScreenChat = (chatid,type,id,selectedChat) =>{
@@ -92,7 +85,10 @@ function App() {
     setIsLoggedIn(status);
   }
   
+
+
   useEffect(()=>{
+
     setScreenWidth(document.body.clientWidth);
     window.addEventListener("resize", (event)=> {
       setScreenWidth(document.body.clientWidth);
@@ -104,6 +100,8 @@ function App() {
         .then((res)=>{
               
             if(res.exists){
+              setUserUid(res.data().uid);
+                 setTheme(res.data().theme); 
                 updateAuth(true);
                 updateLoader(false);
             }
@@ -140,7 +138,7 @@ function App() {
                   </div>
 
                   <div className={screenWidth <600 ? "app__right app__none" :"app__right" }>
-                      <RightScreen rightScreenChat={rightScreenChat}/>
+                      <RightScreen   rightScreenChat={rightScreenChat}/>
                   </div>
                   </>
                   :
@@ -150,7 +148,7 @@ function App() {
                   </div>
 
                   <div className={ screenWidth <600 ? "app__right app__full":"app__right"}  >
-                      <RightScreen rightScreenChat={rightScreenChat}/>
+                      <RightScreen  rightScreenChat={rightScreenChat}/>
                   </div>
                   </>
                 }

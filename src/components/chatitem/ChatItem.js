@@ -33,7 +33,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
 
 
     const exitGroup = () =>{
-        // console.log(uid,umail,chatid);
+       
         setDisplay(false);
 
         if(selectedChat===chatid) resetRightScreenChat()
@@ -163,7 +163,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                 progress: undefined,
                 });
         }
-        :(e)=>{console.log(e.target);
+        :(e)=>{
             changeSelectedChat(chatid);
               
             if(type==='personal'){ 
