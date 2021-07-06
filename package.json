@@ -20,6 +20,7 @@
     "react-speech-recognition": "^3.8.2",
     "react-toastify": "^7.0.4",
     "react-uuid": "^1.0.2",
+    "reactjs-popup": "^2.0.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

@@ -1,10 +1,17 @@
 
 .chat__content{
-   color:white;
+ 
    display: flex;
    flex-direction: column;
    padding-top: 10px;
 }
+
+.shade{
+    box-shadow: 2px 3px 22px 2px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 2px 3px 22px 2px rgba(0,0,0,0.2);
+    -moz-box-shadow: 2px 3px 22px 2px rgba(0,0,0,0.2);
+}
+
 
 .chat__message{
     position:relative;
@@ -22,12 +29,20 @@
 }
 
 .align_right{
+    color:white;
     margin-left: auto;
-    background-color:#0f5249
+    background-color:#25a795
 }
-
+.full__img{
+    background-color: rgba(0, 0, 0, 0.245);
+    height:100vh;
+    width:100vw;
+    object-fit: contain;
+    cursor:zoom-out;
+   
+}
 .cm__img{
-
+    user-select: none;
     height:auto;
     width:100%; 
     object-fit: contain;
@@ -36,7 +51,7 @@
     display: flex;
     margin-right: auto;
     margin-bottom: 10px;
-    cursor: pointer;
+    cursor:zoom-in;
 }
 
 .cm__time{

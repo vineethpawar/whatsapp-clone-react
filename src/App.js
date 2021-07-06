@@ -1,6 +1,8 @@
 import React,{useEffect,useState,createContext} from 'react'
 // import uuid from 'react-uuid'
 import './App.css';
+
+
 import LeftScreen from './screens/leftscreen/LeftScreen';
 import RightScreen from './screens/rightscreen/RightScreen';
 import firebase from 'firebase'
@@ -12,11 +14,30 @@ export const AuthContext = createContext();
 export const UpdateRightScreen = createContext();
 export const ResetRightScreen = createContext();
 export const UpdateMobileView= createContext();
-
+export const UpdateTheme = createContext();
 
 
 
 function App() {
+
+
+     let cssPropertiesLight = {};
+     cssPropertiesLight['--darkInputBackground']='rgb(238, 231, 231)'
+      cssPropertiesLight['--darkBackground'] = 'rgb(238, 231, 231)'
+      cssPropertiesLight['--darkGreenBackground'] = '#3fdbb7'
+      cssPropertiesLight['--darkFontColor'] = 'rgb(43, 42, 42)'
+      cssPropertiesLight['--darkFontSHColor'] = 'grey'
+      cssPropertiesLight['--darkFontSHColor'] = 'grey'
+      cssPropertiesLight['--darkChatBG'] = '#fee4c3cc'
+    
+       let cssPropertiesDark = {};
+       cssPropertiesDark['--darkInputBackground']='#343836'
+       cssPropertiesDark['--darkBackground'] = 'rgb(27, 39, 39)'
+       cssPropertiesDark['--darkGreenBackground'] = '#343836'
+       cssPropertiesDark['--darkFontColor'] = '#fff'
+       cssPropertiesDark['--darkFontSHColor'] = 'rgb(153, 151, 151)'
+       cssPropertiesDark['--darkChatBG'] = 'rgba(27, 26, 26, 0.89)'
+
   
   // const  getTimeOnly = (timestamp) =>{
   //     return format(new Date(timestamp), ' hh:mm aaa')
@@ -38,7 +59,7 @@ function App() {
   //     else  return format(new Date(timestamp), ' dd/MM/yyyy')
   // }
 
- 
+  const [theme,setTheme]=useState('dark');
   const [isLoggedIn,setIsLoggedIn]=useState(false);
   const [isLoading,setIsLoading]=useState(true);
   const [screenWidth,setScreenWidth]=useState(0);
@@ -48,10 +69,14 @@ function App() {
     setIsLoading(option)
   }
 
-
+  const updateTheme = () =>{
+    if(theme==='light') setTheme('dark')
+    else setTheme('light')
+    
+  }
  
-  const updateRightScreenChat = (chatid,type,id) =>{
-    setRightScreenChat([chatid,type,id])
+  const updateRightScreenChat = (chatid,type,id,selectedChat) =>{
+    setRightScreenChat([chatid,type,id,selectedChat])
   }
  
   const updateMobileView = (status) =>{
@@ -97,11 +122,12 @@ function App() {
   
 
   return (
+    <UpdateTheme.Provider value={updateTheme}>
     <UpdateMobileView.Provider value={updateMobileView} >
     <AuthContext.Provider value={updateAuth} >
       <UpdateRightScreen.Provider value={updateRightScreenChat} >
         <ResetRightScreen.Provider value={resetRightScreenChat} >
-          <div className="app">
+          <div className="app" style={theme==='light' ? cssPropertiesLight : cssPropertiesDark}>
              
             {isLoggedIn ?
          
@@ -142,7 +168,7 @@ function App() {
   </UpdateRightScreen.Provider>
 </AuthContext.Provider>
 </UpdateMobileView.Provider>
-
+</UpdateTheme.Provider>
   
   );
 }

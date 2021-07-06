@@ -10,7 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../App';
 import firebase from 'firebase'
 import EditIcon from '@material-ui/icons/Edit';
-
+import Popup from 'reactjs-popup';
+import  {CLOUD_NAME,UPLOAD_PRESET} from '../../cloudinary'
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
 }
@@ -85,9 +86,9 @@ const uploadImage=(files)=>{
         
         const formData = new FormData()
         formData.append("file",files[0])
-        formData.append("upload_preset","xy4zdrfi")
+        formData.append("upload_preset",UPLOAD_PRESET)
 
-        Axios.post("https://api.cloudinary.com/v1_1/dpjkblzgf/image/upload",formData)
+        Axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,formData)
         .then((response)=>{
             setUser2({...user2,dp:response.data.secure_url});
             db.collection('users').doc(user2.uid).set({
@@ -135,7 +136,11 @@ const uploadImage=(files)=>{
 
            <div className="profile__content">
                  <div className="profile__image">
-                      <img src={user2.dp} alt="" />
+
+                 <Popup trigger={<img  className="cm__img" src={user2.dp}/>} modal>
+                    {close =>( <img  className="full__img" src={user2.dp} onClick={close}/>)}
+                 </Popup>
+
                       <input id="uploadId" type="file" onChange={(event)=>uploadImage(event.target.files)}/>
                       <ToastContainer
                             position="bottom-left"

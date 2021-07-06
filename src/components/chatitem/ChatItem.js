@@ -1,5 +1,6 @@
 import React,{useState,useEffect,useContext} from 'react'
 import './ChatItem.css'
+import uuid from 'react-uuid'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import BlockIcon from '@material-ui/icons/Block';
 import ArchiveIcon from '@material-ui/icons/Archive';
@@ -10,15 +11,18 @@ import firebase from 'firebase'
 import {UpdateRightScreen,UpdateMobileView} from '../../App'
 import { ClickAwayListener } from '@material-ui/core';
 import { ToastContainer, toast } from 'react-toastify';
-
+import { ResetRightScreen } from '../../App';
 
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
 }
 
+let unsub;
+                
 
 function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,type,members,description,memebersMail,lastTexted,archieved=false,blocked=false}) {
     const updateRightScreenChat = useContext(UpdateRightScreen);
+    const resetRightScreenChat = useContext(ResetRightScreen)
     const updateMobileView = useContext(UpdateMobileView)
     const getLastTextTime = (timestamp)=>{
         if(isToday(new Date(timestamp))) return format(new Date(timestamp), ' hh:mm aaa')
@@ -29,11 +33,44 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
 
 
     const exitGroup = () =>{
-        console.log(uid,umail,chatid);
+        // console.log(uid,umail,chatid);
+        setDisplay(false);
+
+        if(selectedChat===chatid) resetRightScreenChat()
+       
+  
+       
+      setTimeout(() => {
+          
+
         db.collection('chats').doc(chatid).update({
             members:firebase.firestore.FieldValue.arrayRemove(uid),
             membersMail:firebase.firestore.FieldValue.arrayRemove(umail)
-        })
+        },{merge:true}).then(()=>
+        db.collection('chats').doc(chatid).set({
+            messages:firebase.firestore.FieldValue.arrayUnion(
+                {   mid:uuid(),
+                    content:`${umailExtractor(umail)} left the group :(`,
+                    timePosted:`${new Date()}`,
+                    type:'info'
+                }
+            ),
+            lastTexted:`${new Date()}`,
+            timestamp:firebase.firestore.FieldValue.serverTimestamp()
+        },{merge:true}) 
+        )
+
+
+
+
+      }, 5000);
+        
+
+
+       
+       
+
+        
     }
 
 
@@ -45,10 +82,12 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                 db.collection('users').doc(uid).update({
                     archieved:firebase.firestore.FieldValue.arrayRemove(chatid)
                 })
+               
         } else {
             db.collection('users').doc(uid).update({
                 archieved:firebase.firestore.FieldValue.arrayUnion(chatid)
             })
+            
         }
     }
 
@@ -67,16 +106,14 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                 db.collection('users').doc(uid).update({
                 blocked:firebase.firestore.FieldValue.arrayUnion(chatid)
             })
-           } else {
-            toast.error('You cannot block an opened chat', {
-                position: "bottom-left",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                });
+           } else {  
+            
+            setDisplay(false);
+                db.collection('users').doc(uid).update({
+                    blocked:firebase.firestore.FieldValue.arrayUnion(chatid)
+                })
+             resetRightScreenChat()
+
            }
         }
     }
@@ -114,7 +151,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
     return (
     <div style={ display ? {display:'block',position:'relative'} : {display:'none',position:'relative'}}>
         <ToastContainer/>
-    <div className="chat__item" onClick={blocked ? 
+    <div className="chat__item" id={chatid} onClick={blocked ? 
         ()=>{
             toast.error('Unblock chat to view messages', {
                 position: "bottom-left",
@@ -126,17 +163,21 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                 progress: undefined,
                 });
         }
-        :()=>{
-        changeSelectedChat(chatid);
-        if(type==='personal'){ 
-            if(uid===members[0]){
-                 updateRightScreenChat(members[1],type,chatid);  updateMobileView(false);
-            }
-            else {
-                updateRightScreenChat(members[0],type,chatid); updateMobileView(false) 
+        :(e)=>{console.log(e.target);
+            changeSelectedChat(chatid);
+              
+            if(type==='personal'){ 
+                if(uid===members[0]){
+                      
+                     updateRightScreenChat(members[1],type,chatid,e.target);  updateMobileView(false);
                 }
-            }  
-        else { updateRightScreenChat(chatid,type,0); updateMobileView(false) }
+                else {
+                  
+                    updateRightScreenChat(members[0],type,chatid,e.target); updateMobileView(false); 
+                    }
+                }  
+            else { updateRightScreenChat(chatid,type,0,e.target); updateMobileView(false) }
+
         }
     
     
@@ -157,9 +198,10 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                     </div>
                     
                     <div className="chat__item__options" >
-                    <div className="time">{getLastTextTime(lastTexted)}</div>
+                    <div className="time theme__subfont">{getLastTextTime(lastTexted)}</div>
 
                     <span className="chat__options__icons">
+                    
                     {archieved &&   
                         <span title="Archived chat">
                         <ArchiveIcon  className="pin__icon"/> 
@@ -172,9 +214,6 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                         </span>
                     }
 
-
-
-
                     <ClickAwayListener onClickAway={()=>setOptions(false)}>
                             <span  onClick={()=>setOptions(!options)}>
                                 <ExpandMoreIcon className="expand__icon"/>
@@ -183,7 +222,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
 
 
                     { options &&
-                        <div style={{position:'absolute'}} className="options theme__green__bg" onClick={()=>setOptions(!options)}>
+                        <div style={{position:'absolute',border:'1px solid grey'}} className="options theme__input__bg" onClick={()=>setOptions(!options)}>
                          {!blocked &&   
                             <div onClick={archieveItemHandler} className="option__item">{archieved ? 'Unarchive chat':'Archive chat'}</div>
                          }
@@ -203,6 +242,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
 
 
            <div className={ selectedChat===chatid ? "chat__item chat__item__selected":"chat__item"} >
+               
            <img src={dp} 
            className="chat__dp" alt="" />
            <div className="chat__details">
@@ -216,7 +256,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
            </div>
            
            <div className="chat__item__options" >
-           <div className="time">{getLastTextTime(lastTexted)}</div>
+           <div className="time theme__subfont">{getLastTextTime(lastTexted)}</div>
 
            <span className="chat__options__icons">
            {archieved &&   
@@ -238,15 +278,19 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
                     </ClickAwayListener>
 
            { options &&
-               <div  style={{zIndex:'13'}} className="options theme__green__bg" onClick={()=>setOptions(!options)}> 
-                      {!blocked &&   
+               <div  style={{position:'absolute',border:'1px solid grey'}} className="options theme__input__bg" onClick={()=>setOptions(!options)}> 
+                         
+                         
+                         {!blocked &&   
                           <div onClick={archieveItemHandler} className="option__item">{archieved ? 'Unarchive chat':'Archive chat'}</div>
-                         }
-                <div onClick={blockItemHandler}  className="option__item">{blocked ? 'Unblock chat' : 'Block chat'}</div>
+                          }
 
-                {!blocked &&   
-                   <div onClick={()=>exitGroup()} className="option__item">Exit group</div>
-                }
+                         <div onClick={blockItemHandler}  className="option__item">{blocked ? 'Unblock chat' : 'Block chat'}</div>
+
+                         {!blocked &&   
+                         <div onClick={exitGroup} className="option__item">Exit group</div>
+                         }
+                       
 
                </div>
            }  

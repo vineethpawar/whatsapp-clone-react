@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import './LeftScreen.css'
 import UserProfile from '../../components/userprofile/UserProfile'
 import ChatList from '../../components/chatlist/ChatList'
@@ -9,11 +9,8 @@ import CreateGroupChat from './../../components/creategroupchat/CreateGroupChat'
 
 function LeftScreen() {
     const [leftScreen,setLeftScreen]=useState('chatlist');
-    const [selected,setSelected]=useState('0')
     const leftScreenChange=(component)=>setLeftScreen(component);
-    const selectedChange=(component)=>setSelected(component);
-   
-  
+
     
     return (
 
@@ -25,7 +22,7 @@ function LeftScreen() {
        { leftScreen==='blocked'  &&    <BlockedList change={leftScreenChange}/>}
        { leftScreen==='createuserchat'  &&   <AddContact change={leftScreenChange} />}
        { leftScreen==='creategroupchat'  &&   <CreateGroupChat change={leftScreenChange} />}
-       
+     
         </div>
     )
 }

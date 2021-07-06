@@ -58,8 +58,8 @@
     height: 100vh;
     width: 100%;
     overflow:hidden;
-    /* background-color: rgba(223, 205, 205, 0.671); */
-    background-color: rgba(27, 26, 26, 0.89);
+    background-color: var(--darkChatBG);
+    /* background-color: rgba(27, 26, 26, 0.89); */
     z-index:2;
 }
 
@@ -68,7 +68,7 @@
     height: 100vh;
     width: 100%;
     overflow:hidden;
-    /* background-color: rgba(223, 205, 205, 0.671); */
+    background-color: rgba(94, 88, 88, 0.671);
     background-color: var(--darkBackground);
     z-index:2;
 }

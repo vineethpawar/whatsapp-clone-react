@@ -153,7 +153,7 @@ const addChatHandler =(uid,umail) => {
              </div>
            
        
-           <div className="search__container theme__search theme__green__bg">
+           <div className="search__container theme__search theme__input__bg">
                   <SearchIcon className="search__icon" /> 
                   <input spellCheck="false" className="search__inp theme__font" type="text" value={searchName} onChange={(e)=>{setSearchName(e.target.value);filterFun(e.target.value)}} placeholder="Enter contact name" />
            </div>

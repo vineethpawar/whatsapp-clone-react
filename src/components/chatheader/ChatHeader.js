@@ -9,7 +9,7 @@ const umailExtractor = (umail)=>{
 }
 
 
-function ChatHeader({rightScreenChat}) {
+function ChatHeader({rightScreenChat,updateChatDetailsVisibility}) {
     const [screenWidth,setScreenWidth]=useState(0);
     const updateMobileView = useContext(UpdateMobileView);
     useEffect(()=>{
@@ -56,7 +56,7 @@ function ChatHeader({rightScreenChat}) {
 
     return (
 
-      <div className="theme__green__bg chat__header theme__font">
+      <div className="theme__green__bg chat__header theme__font" onClick={()=>updateChatDetailsVisibility(true)} style={{position:'relative'}}>
 
           {rightScreenChat[1]==='personal' ?
           <div className="chat__user__details__wrapper">
@@ -74,7 +74,7 @@ function ChatHeader({rightScreenChat}) {
           :
           <div className="chat__user__details__wrapper">
                { screenWidth <600 &&
-                        <span onClick={()=>{updateMobileView(true);}}>
+                        <span  onClick={()=>{updateMobileView(true);}}>
                         <ArrowBackIcon className="arch__back__icon" />
                         </span>
                  }

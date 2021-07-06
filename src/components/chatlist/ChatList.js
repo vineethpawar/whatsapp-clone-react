@@ -3,11 +3,13 @@ import './ChatList.css'
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SearchIcon from '@material-ui/icons/Search';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
 import ChatItem from '../chatitem/ChatItem';
 import {db} from "../../firebase"
 import { AuthContext } from '../../App';
 import firebase from 'firebase'
 import {ResetRightScreen} from '../../App'
+import {UpdateTheme} from '../../App'
 import { ClickAwayListener } from '@material-ui/core';
 
 const umailExtractor = (umail)=>{
@@ -15,14 +17,19 @@ const umailExtractor = (umail)=>{
 }
 
 function ChatList({change}) {
+    const updateTheme = useContext(UpdateTheme) 
+    const updateAuth = useContext(AuthContext);
+    
+    
     const resetRightScreenChat = useContext(ResetRightScreen);
     const [selectedChat,setSelectedChat]=useState('0')
+    
     const changeSelectedChat=(chat)=>{
         setSelectedChat(chat);
     }
 
 
-    const updateAuth = useContext(AuthContext);
+   
 
     const signout = () =>{
         resetRightScreenChat();
@@ -64,7 +71,7 @@ function ChatList({change}) {
    const [newChatOptions,setNewChatOptions]=useState(false);
    
    useEffect(()=>{
-      
+    resetRightScreenChat();
     firebase.auth().onAuthStateChanged((user0)=>{
         if(user0.uid){
            db.collection('users').doc(user0.uid).get()
@@ -115,17 +122,24 @@ function ChatList({change}) {
                 <div className="chat__icons">
                    
 
+ 
+             <span title="Theme" className="menu__span" onClick={updateTheme}>
+                <Brightness4Icon className="chat__icon"/>
+             </span>
+        
             <ClickAwayListener onClickAway={()=>setNewChatOptions(false)}>
                     <span title="New chat" className="menu__span" onClick={()=>setNewChatOptions(!newChatOptions)}>
                         <AddIcon className="chat__icon"/>
                         {newChatOptions && 
-                        <div className="menu__options theme__green__bg">
+                        <div className="menu__options theme__input__bg" style={{border:'1px solid grey'}}>
                             <div onClick={()=>change('createuserchat')} className="menu__option__item">Add new contact</div>
                             <div onClick={()=>change('creategroupchat')} className="menu__option__item">Create group</div>
                         </div>
                         }
                     </span>
              </ClickAwayListener>           
+            
+
 
 
              <ClickAwayListener onClickAway={()=>setMenuOptions(false)}>          
@@ -133,7 +147,7 @@ function ChatList({change}) {
                         <MoreHorizIcon className="chat__icon"/>
 
                         {menuOptions && 
-                        <div className="menu__options theme__green__bg" >
+                        <div className="menu__options theme__input__bg" style={{border:'1px solid grey'}}>
                             <div onClick={()=>change('userprofile')} className="menu__option__item">User Profile</div>
                             <div onClick={()=>change('archieved')} className="menu__option__item">Archived</div>
                             <div onClick={()=>change('blocked')} className="menu__option__item">Blocked</div>
@@ -141,15 +155,24 @@ function ChatList({change}) {
                         </div>
                         }
                     </span>
-            </ClickAwayListener>           
+            </ClickAwayListener>     
+           
 
+
+           
+           
+       
+     
+           
 
 
                 </div>
+
+               
          
             </div>
 
-            <div className="search__container theme__search theme__green__bg">
+            <div className="search__container theme__search theme__input__bg">
                    <SearchIcon className="search__icon" /> 
                    <input spellCheck="false" className="search__inp theme__font" type="text" value={searchName} onChange={(e)=>{setSearchName(e.target.value);filterFun(chats,e.target.value)}} placeholder="Search a chat by group name or user unique id" />
             </div>

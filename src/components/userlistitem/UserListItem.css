@@ -1,0 +1,11 @@
+.chat__list__item{
+    display: flex;  
+    align-items: center;
+    padding: 10px;
+    border-bottom:1px solid rgba(146, 141, 141, 0.445);
+    height:100%;
+ }
+
+ .dp__zoom{
+     cursor:zoom-in;
+ }

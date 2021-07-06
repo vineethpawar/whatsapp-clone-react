@@ -8,9 +8,12 @@
   }
   
     .chat__list::-webkit-scrollbar-thumb {
-      background-color: var(--lightGreenBackground);
-      outline: 1px solid var(--lightGreenBackground);
+      background-color:#00bfa5;
+      outline: 1px solid #00bfa5;
+     
     }
+
+    
 
     .sticky__top{
         position:sticky;
@@ -82,7 +85,7 @@
         width: 50px;
         border-radius: 50%;
         object-fit: cover;
-        object-position: center;
+        object-position: top;
         margin-right: 10px;
         cursor: pointer;
     }

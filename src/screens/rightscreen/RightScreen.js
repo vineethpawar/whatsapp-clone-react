@@ -6,6 +6,9 @@ import ChatContent from '../../components/chatcontent/ChatContent';
 import { AuthContext } from '../../App';
 import firebase from 'firebase'
 import {db} from '../../firebase'
+import ChatDetails from './../../components/chatdetails/ChatDetails';
+import UpdateGroupChat from './../../components/updategroupchat/UpdateGroupChat';
+
 
 const updateScroll = () =>{
     var element = document.getElementById("chat__messages__content");
@@ -17,28 +20,51 @@ const updateScrollTimeout = () =>{
     setTimeout(() => { updateScroll() }, 10);
 }
 
+
+
+
+
+
 function RightScreen({rightScreenChat}) {
+    const [groupUpdate,setGroupUpdate]=useState(false)
+    
+    const updateGroup = (status) => setGroupUpdate(status);
+    const[chatUpdate,setChatUpdate]=useState(0)
+
+    const updateChatDetailsVisibility = (status)=>{
+        setIsChatDetailsActive(status)
+    }
+
+ 
+
+    const [isChatDetailsActive,setIsChatDetailsActive]=useState(false)
     const [user0,setUser0]=useState({})
+  
     const updateAuth = useContext(AuthContext);
+    
 
     useEffect(()=>{
-        
+         
+        updateChatDetailsVisibility(false)
       
         firebase.auth().onAuthStateChanged((user0)=>{
             if(user0){
                db.collection('users').doc(user0.uid).get()
                .then((userDet)=>{
                    setUser0(userDet.data());
+                   db.collection('chats').where('members','array-contains',userDet.data().uid).onSnapshot(()=>setChatUpdate(chatUpdate+1))
                     return userDet.data();
                })
             } else{
              updateAuth(false);
             }
         })   
-    },[])
+    },[rightScreenChat])
    
 
-    return (
+    return ( <>
+    
+    {!isChatDetailsActive ?
         <div className="right__screen " >
 
 
@@ -59,12 +85,12 @@ function RightScreen({rightScreenChat}) {
                     <div className="overlay"></div>
 
                     <div className="chat__header__wrapper">
-                        <ChatHeader rightScreenChat={rightScreenChat}/>
+                        <ChatHeader rightScreenChat={rightScreenChat} updateChatDetailsVisibility={updateChatDetailsVisibility} />
                     </div>
 
  
                     <div id='chat__messages__content' className="chat__messages__content" style={{marginBottom:`62px`}} >
-                        <ChatContent rightScreenChat={rightScreenChat} updateScrollTimeout={updateScrollTimeout} user={user0}/>
+                        <ChatContent count={chatUpdate} rightScreenChat={rightScreenChat} updateScrollTimeout={updateScrollTimeout} user={user0}/>
                     </div>
             
               
@@ -75,6 +101,18 @@ function RightScreen({rightScreenChat}) {
             } 
 
         </div>
+        :
+        <>
+        {
+         groupUpdate ? 
+          <UpdateGroupChat chatid={rightScreenChat[3].id} updateGroup={updateGroup} />
+          :
+          <ChatDetails rightScreenChat={rightScreenChat} user={user0} updateChatDetailsVisibility={updateChatDetailsVisibility} updateGroup={updateGroup} />
+        }
+         </>
+      }
+   
+        </>
     )
 }
 

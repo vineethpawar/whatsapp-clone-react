@@ -12,8 +12,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import uuid from 'react-uuid'
 import {db} from '../../firebase'
 import firebase from 'firebase'
-
+import { ClickAwayListener } from '@material-ui/core';
 import 'emoji-picker-element';
+import  {CLOUD_NAME,UPLOAD_PRESET} from '../../cloudinary'
 
 
 
@@ -114,9 +115,9 @@ const checkCombo = (event) =>{
             
             const formData = new FormData()
             formData.append("file",files[0])
-            formData.append("upload_preset","xy4zdrfi")
+            formData.append("upload_preset",UPLOAD_PRESET)
     
-            Axios.post("https://api.cloudinary.com/v1_1/dpjkblzgf/image/upload",formData)
+            Axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,formData)
             .then((response)=>{ 
                 setImageInput(response.data.secure_url);
             }) 
@@ -134,9 +135,9 @@ const checkCombo = (event) =>{
         } 
     
     
-     } else{
+     } else {
          if(files[0]){
-        toast.error('Not an image', {
+          toast.error('Not an image', {
             position: "bottom-left",
             autoClose: 2000,
             hideProgressBar: false,
@@ -235,7 +236,7 @@ const checkCombo = (event) =>{
             
 
 
-
+         <ClickAwayListener onClickAway={()=>setEmojiOptions(false)}>
             <div className="emote" title="emote" onClick={listening ? null :()=>{setEmojiOptions(!emojiOptions)}}>
                 {emojiOptions ? 
                 <EmojiEmotionsIcon className="emote__icon"/>
@@ -243,6 +244,7 @@ const checkCombo = (event) =>{
                 <EmojiEmotionsOutlinedIcon className="emote__icon"/>
                  }
             </div>
+            </ClickAwayListener>
 
             <label htmlFor="img_upload_input">
             <div className="emote" title="photo">
@@ -250,7 +252,7 @@ const checkCombo = (event) =>{
             </div>
             </label>
 
-            <div className="input__bar theme__green__bg">
+            <div className="input__bar theme__input__bg" style={{border:'1px solid grey'}}>
                 <form style={{width:'100%'}}>
                     {listening ? 
                          <textarea  spellCheck='false' placeholder="Type a message" style={{height:inputHeight}} onKeyDown={(e)=>checkCombo(e)} value={listening ? textInput + transcript : textInput} onChange={ (e)=>{setTextInput(e.target.value); autogrow(e)}}  className="input__bar__textarea  theme__font" disabled></textarea>

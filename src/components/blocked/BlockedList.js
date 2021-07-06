@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import './BlockedList.css'
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -7,6 +7,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {db} from "../../firebase"
 
 import firebase from 'firebase'
+import {ResetRightScreen} from '../../App'
 
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
@@ -14,7 +15,7 @@ const umailExtractor = (umail)=>{
 
 
 function ArchievedList({change}) {
-
+    const resetRightScreenChat = useContext(ResetRightScreen);
     const [selectedChat,setSelectedChat]=useState('0')
     const changeSelectedChat=(chat)=>{
         setSelectedChat(chat);
@@ -50,6 +51,8 @@ function ArchievedList({change}) {
   
    
    useEffect(()=>{
+   
+    resetRightScreenChat();
 
     firebase.auth().onAuthStateChanged((user)=>{
         if(user){
@@ -113,7 +116,7 @@ function ArchievedList({change}) {
 
 
 
-            <div className="search__container theme__search theme__green__bg">
+            <div className="search__container theme__search theme__input__bg">
                    <SearchIcon className="search__icon" /> 
                    <input spellCheck="false" className="search__inp theme__font" type="text" value={searchName} onChange={(e)=>{setSearchName(e.target.value);filterFun(chats,e.target.value)}} placeholder="Search or start new chat" />
             </div>

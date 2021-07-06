@@ -4,11 +4,15 @@
   --darkGreenBackground:#343836;
   --darkFontColor:#fff;
   --darkBackground:rgb(27, 39, 39);
+  --darkChatBG:rgba(27, 26, 26, 0.89);
 
+  --lightChatBG:#fee4c3cc;
   --lightFontSHColor:rgb(153, 151, 151);  
   --lightFontColor:rgb(43, 42, 42);
-  --lightGreenBackground:#00bfa5;
+  --lightGreenBackground:#3fdbb7;
   --lightBackground:rgb(238, 231, 231);
+
+ 
 }
 
 
@@ -52,7 +56,7 @@
     font-weight: 400;
     color:var(--lightGreenBackground);
 }
-
+ 
 .theme__search{
     background-color:rgba(97, 89, 89, 0.541);
 }
@@ -64,6 +68,10 @@
 .theme__bg{
     background-color: var(--darkBackground);
 }
+.theme__input__bg{
+   background-color: var(--darkInputBackground);
+}
+
 .theme__green__bg{
     background-color: var(--darkGreenBackground);
 }

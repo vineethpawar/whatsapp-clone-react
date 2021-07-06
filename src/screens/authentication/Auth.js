@@ -19,10 +19,10 @@ function Auth({isLoading,updateLoader}) {
         .signInWithPopup(provider)
         .then((result) => {
             /** @type {firebase.auth.OAuthCredential} */
-            var credential = result.credential;
+            // var credential = result.credential;
 
             // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = credential.accessToken;
+            // var token = credential.accessToken;
             // The signed-in user info.
             var user = result.user;
            
@@ -106,7 +106,7 @@ function Auth({isLoading,updateLoader}) {
                             />
 
             <div className="wave"></div>
-                <img className="w__logo" src="https://i.pinimg.com/originals/91/9d/f0/919df067a8fbd22ce7b6f401b7688b35.png" alt="" />
+                <img className="w__logo" src="https://res.cloudinary.com/dpjkblzgf/image/upload/v1625326357/icon1_ggxci6.png" alt="" />
                     {/* <span className="center text_white">
                         Made by:
                          <a href="#" className="name">Vineeth Pawar</a>   

@@ -18,7 +18,7 @@
     width: 50px;
     border-radius: 50%;
     margin-right: 10px;
-    object-position: center;
+    object-position: top;
     object-fit: cover;
     
  }
@@ -35,11 +35,12 @@
 
 
 .time{
+
    display: flex;
    margin-left: auto;
    white-space: nowrap;
    font-size: 14px;
-   color:rgb(173, 169, 169);
+  
 }
 
  .chat__options__icons{

@@ -32,7 +32,7 @@
         width: 50px;
         border-radius: 50%;
         object-fit: cover;
-        object-position: center;
+        object-position: top;
         margin-right: 10px;
         cursor: pointer;
     }
