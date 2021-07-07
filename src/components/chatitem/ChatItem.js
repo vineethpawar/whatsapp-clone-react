@@ -12,13 +12,13 @@ import {UpdateRightScreen,UpdateMobileView} from '../../App'
 import { ClickAwayListener } from '@material-ui/core';
 import { ToastContainer, toast } from 'react-toastify';
 import { ResetRightScreen } from '../../App';
+import Popup from 'reactjs-popup';
 
 const umailExtractor = (umail)=>{
     return umail.slice(0,umail.lastIndexOf('@'))
 }
 
-let unsub;
-                
+ 
 
 function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,type,members,description,memebersMail,lastTexted,archieved=false,blocked=false}) {
     const updateRightScreenChat = useContext(UpdateRightScreen);
@@ -185,8 +185,12 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
      style={{position:'absolute',height:'100%',width:'100%',cursor:'pointer'}}></div>
         {type==='personal' ? 
                 <div  className={ selectedChat===chatid ? "chat__item chat__item__selected":"chat__item"} >
-                    <img src={user1.dp} 
-                    className="chat__dp" alt="" />
+                     <button style={{position:'relative',zIndex:'999',backgroundColor:'transparent',border:'none',outline:'none',width:'fit-content'}}>
+                 <Popup trigger={<img  className=" chat__dp" src={user1.dp}/>} modal>
+                    {close =>( <img  className="full__img" src={user1.dp} onClick={close}/>)}
+                 </Popup>
+                 </button>
+                
                     <div className="chat__details">
                         <h2 style={{display:'inline-flex',marginRight:'5px'}} className="theme__h4">{user1.uname}  </h2>
                         <h4 style={{display:'inline-flex'}} className="theme__h5 theme__subfont chat__subtext">
@@ -243,8 +247,12 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
 
            <div className={ selectedChat===chatid ? "chat__item chat__item__selected":"chat__item"} >
                
-           <img src={dp} 
-           className="chat__dp" alt="" />
+                  <button style={{position:'relative',zIndex:'999',backgroundColor:'transparent',border:'none',outline:'none',width:'fit-content'}}>
+                 <Popup trigger={<img  className=" chat__dp" src={dp}/>} modal>
+                    {close =>( <img  className="full__img" src={dp} onClick={close}/>)}
+                 </Popup>
+                 </button>
+           
            <div className="chat__details">
                <div style={{display:'flex',alignItems:'center'}} className="">
                <h2  style={{marginRight:'10px'}} className="theme__h4">{chatname}</h2>

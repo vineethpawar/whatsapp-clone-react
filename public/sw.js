@@ -12,12 +12,12 @@ self.addEventListener('install',function(event){
                 '/static/css/2.ab062550.chunk.css.map',
                 '/static/css/main.57d72fe7.chunk.css',
                 '/static/css/main.57d72fe7.chunk.css.map',
-                 '/static/js/2.65946be1.chunk.js',
+                 '/static/js/2.34c68939.chunk.js',
 
-                 '/static/js/2.65946be1.chunk.js.map',
+                 '/static/js/2.34c68939.chunk.js.map',
 
-                 '/static/js/main.3703cd1e.chunk.js',
-                 '/static/js/main.3703cd1e.chunk.js.map',
+                 '/static/js/main.973dadf9.chunk.js',
+                 '/static/js/main.973dadf9.chunk.js.map',
                  '/static/js/runtime-main.191ee827.js',
                  '/static/js/runtime-main.191ee827.js.map',
                  
