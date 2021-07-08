@@ -69,8 +69,10 @@
       width: 200px;
       height:200px;
       margin-top: 10px;
-      object-fit:cover;
-      object-position: top;
+      -o-object-fit:cover;
+         object-fit:cover;
+      -o-object-position: top;
+         object-position: top;
   }
   
   
@@ -81,6 +83,8 @@
       margin-top: 5px;
       display: flex;
       align-items: center;
+      width:-webkit-fit-content;
+      width:-moz-fit-content;
       width:fit-content;
       margin-left: auto;
       margin-bottom: 40px;
@@ -161,6 +165,8 @@
     color:#00bfa5;
     border-radius: 20px;
     margin: 5px;
+    width:-webkit-fit-content;
+    width:-moz-fit-content;
     width:fit-content;
   }
   

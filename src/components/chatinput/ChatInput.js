@@ -236,7 +236,7 @@ const checkCombo = (event) =>{
             
 
 
-         <ClickAwayListener onClickAway={()=>setEmojiOptions(false)}>
+        
             <div className="emote" title="emote" onClick={listening ? null :()=>{setEmojiOptions(!emojiOptions)}}>
                 {emojiOptions ? 
                 <EmojiEmotionsIcon className="emote__icon"/>
@@ -244,7 +244,7 @@ const checkCombo = (event) =>{
                 <EmojiEmotionsOutlinedIcon className="emote__icon"/>
                  }
             </div>
-            </ClickAwayListener>
+        
 
             <label htmlFor="img_upload_input">
             <div className="emote" title="photo">

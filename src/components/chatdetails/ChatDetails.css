@@ -45,8 +45,10 @@
     border-radius: 50%;
     height: 260px;
     width: 260px;
-    object-fit: cover;
-    object-position: top;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: top;
+       object-position: top;
     margin-bottom: 40px;
 
    

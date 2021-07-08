@@ -11,8 +11,10 @@
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    object-fit: cover;
-    object-position: top;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: top;
+       object-position: top;
     margin-right: 10px;
     cursor: pointer;
     margin-right: 10px;

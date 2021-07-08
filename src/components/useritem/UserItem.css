@@ -18,8 +18,10 @@
     width: 50px;
     border-radius: 50%;
     margin-right: 10px;
-    object-position: top;
-    object-fit: cover;
+    -o-object-position: top;
+       object-position: top;
+    -o-object-fit: cover;
+       object-fit: cover;
     
  }
 
@@ -73,6 +75,8 @@
    margin-top: -5px;
    position: absolute;
    max-width:450px;
+   width:-webkit-max-content;
+   width:-moz-max-content;
    width:max-content;
    border-radius: 5px;
 
@@ -96,6 +100,8 @@
     margin-top: -5px;
     position: absolute;
     max-width:450px;
+    width:-webkit-max-content;
+    width:-moz-max-content;
     width:max-content;
     border-radius: 5px;
 }
