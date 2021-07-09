@@ -8,6 +8,7 @@ This project is hosted at url: https://whatsapp-clone-25e4c.web.app/ using Fireb
 1. FrontEnd - React JS, Material UI
 2. Backend - Firebase
 3. Authentication - Google Authentication
+4. Image Storage - Cloudinary
 
 ## Project functionalities
 
