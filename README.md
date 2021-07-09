@@ -39,9 +39,9 @@ This project is hosted at url: https://whatsapp-clone-25e4c.web.app/ using Fireb
 ![updateprooo](https://user-images.githubusercontent.com/55575881/125084751-81855c00-e0e7-11eb-85c3-839f31f4325d.png)
 
 3.Update Group
+![update group](https://user-images.githubusercontent.com/55575881/125085774-944c6080-e0e8-11eb-84d2-8f2b1fd3c3ee.png)
 
-
-
+4. Authentication
 
 
 ## Note for Developers
