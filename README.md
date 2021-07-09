@@ -17,16 +17,30 @@ This project is hosted at url: https://whatsapp-clone-25e4c.web.app/ using Fireb
 4. Archieve / Block User
 5. Update Profile [Name, Image , Status]
 6. Search  Users /Groups
+7. Image Popup
 
 
 
 ## Projec features
 
 1. PWA Optimized - This project is Installable and PWA optimized 
-   ![pwa screenshot](https://user-images.githubusercontent.com/55575881/125081621-d7f09b80-e0e3-11eb-867f-162f0602b982.png)zed
+   ![pwa screenshot](https://user-images.githubusercontent.com/55575881/125081621-d7f09b80-e0e3-11eb-867f-162f0602b982.png)
 2. Responsive - This project is fully responsive.
 3. Dark and Light Theme - The user can have his/her theme preference.
 4. Text to Speech recognition - The user can speak into the mic, which is translated to text in input bar. 
+
+
+
+## Screenshots
+1.Chating
+![scr1](https://user-images.githubusercontent.com/55575881/125084358-0de34f00-e0e7-11eb-8045-882f6cf5a5b2.png)
+
+2.Updating Profile
+![updateprooo](https://user-images.githubusercontent.com/55575881/125084751-81855c00-e0e7-11eb-85c3-839f31f4325d.png)
+
+3.Update Group
+![Uploading update group.png…]()
+
 
 
 
