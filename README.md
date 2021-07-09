@@ -21,7 +21,7 @@ This project is hosted at url: https://whatsapp-clone-25e4c.web.app/ using Fireb
 
 
 
-## Projec features
+## Project features
 
 1. PWA Optimized - This project is Installable and PWA optimized 
    ![pwa screenshot](https://user-images.githubusercontent.com/55575881/125081621-d7f09b80-e0e3-11eb-867f-162f0602b982.png)
@@ -32,7 +32,7 @@ This project is hosted at url: https://whatsapp-clone-25e4c.web.app/ using Fireb
 
 
 ## Screenshots
-1.Chating
+1.Chatting
 ![scr1](https://user-images.githubusercontent.com/55575881/125084358-0de34f00-e0e7-11eb-8045-882f6cf5a5b2.png)
 
 2.Updating Profile
