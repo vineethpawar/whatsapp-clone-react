@@ -15,7 +15,7 @@ This project is hosted at url: https://whatsapp-clone-25e4c.web.app/ using Fireb
 1. Add Friend
 2. Create Group
 3. Update Group [Update Name, Image, Description, Add member]
-4. Archieve / Block User
+4. Archive / Block User
 5. Update Profile [Name, Image , Status]
 6. Search  Users /Groups
 7. Image Popup
