@@ -89,6 +89,7 @@ function App() {
 
   useEffect(()=>{
 
+    
     setScreenWidth(document.body.clientWidth);
     window.addEventListener("resize", (event)=> {
       setScreenWidth(document.body.clientWidth);

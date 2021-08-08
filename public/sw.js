@@ -16,8 +16,8 @@ self.addEventListener('install',function(event){
 
                  '/static/js/2.34c68939.chunk.js.map',
 
-                 '/static/js/main.973dadf9.chunk.js',
-                 '/static/js/main.973dadf9.chunk.js.map',
+                 '/static/js/main.c1f3ee4a.chunk.js',
+                 '/static/js/main.c1f3ee4a.chunk.js.map',
                  '/static/js/runtime-main.191ee827.js',
                  '/static/js/runtime-main.191ee827.js.map',
                  

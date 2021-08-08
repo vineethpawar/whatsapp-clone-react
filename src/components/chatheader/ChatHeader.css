@@ -5,6 +5,7 @@
     justify-content: space-between;
     height: 80px;
     cursor: pointer;
+    z-index: 999;
 }
 
 .ch__user__img{

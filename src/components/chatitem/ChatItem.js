@@ -185,7 +185,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
      style={{position:'absolute',height:'100%',width:'100%',cursor:'pointer'}}></div>
         {type==='personal' ? 
                 <div  className={ selectedChat===chatid ? "chat__item chat__item__selected":"chat__item"} >
-                     <button style={{position:'relative',zIndex:'999',backgroundColor:'transparent',border:'none',outline:'none',width:'fit-content'}}>
+                     <button style={{position:'relative',zIndex:'2',backgroundColor:'transparent',border:'none',outline:'none',width:'fit-content'}}>
                  <Popup trigger={<img  className=" chat__dp" src={user1.dp}/>} modal>
                     {close =>( <img  className="full__img" src={user1.dp} onClick={close}/>)}
                  </Popup>
@@ -247,7 +247,7 @@ function ChatItem({uid,selectedChat,changeSelectedChat,umail,chatid,chatname,dp,
 
            <div className={ selectedChat===chatid ? "chat__item chat__item__selected":"chat__item"} >
                
-                  <button style={{position:'relative',zIndex:'999',backgroundColor:'transparent',border:'none',outline:'none',width:'fit-content'}}>
+                  <button style={{position:'relative',zIndex:'2',backgroundColor:'transparent',border:'none',outline:'none',width:'fit-content'}}>
                  <Popup trigger={<img  className=" chat__dp" src={dp}/>} modal>
                     {close =>( <img  className="full__img" src={dp} onClick={close}/>)}
                  </Popup>

@@ -3,24 +3,52 @@
   "name": "BaatCheet - Whatsapp Clone - By ~ Vineeth",
   "icons": [
     {
+      "src": "https://res.cloudinary.com/dpjkblzgf/image/upload/v1625761331/baatcheet%20icons/icon-72x72_wu9k30.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/dpjkblzgf/image/upload/v1625761331/baatcheet%20icons/icon-96x96_rz9jg9.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/dpjkblzgf/image/upload/v1625761330/baatcheet%20icons/icon-128x128_m2e5ja.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/dpjkblzgf/image/upload/v1625761330/baatcheet%20icons/icon-144x144_urbrpb.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
       "src": "https://res.cloudinary.com/dpjkblzgf/image/upload/v1625580102/baatcheet%20icons/icon-192x192_rlqcpt.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "https://res.cloudinary.com/dpjkblzgf/image/upload/v1625580107/baatcheet%20icons/icon-256x256_f6sjvs.png",
       "sizes": "256x256",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "https://res.cloudinary.com/dpjkblzgf/image/upload/v1625580108/baatcheet%20icons/icon-384x384_xtf4ro.png",
       "sizes": "384x384",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "https://res.cloudinary.com/dpjkblzgf/image/upload/v1625580107/baatcheet%20icons/icon-512x512_fjupoi.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "start_url": ".",
