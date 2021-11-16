@@ -1,6 +1,6 @@
 ## BaatCheet - Whatsapp Clone
 
-Hosted link: https://whatsapp-clone-25e4c.web.app\
+Hosted link: https://whatsapp-clone-25e4c.web.app \
 This is a Whatsapp Clone made using React JS and Firebase.
 
 Video Demo : https://youtu.be/1qC_doLiwSI
