@@ -4,7 +4,8 @@ Hosted link: https://whatsapp-clone-25e4c.web.app \
 
 This is a Whatsapp Clone made using React JS and Firebase.
 
-Video Demo : https://youtu.be/1qC_doLiwSI
+https://github.com/vineethpawar/whatsapp-clone-react/assets/55575881/03825b00-3c47-4992-8a98-857db9f28e1c
+
 
 ## Technologies used
 
